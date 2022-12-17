@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Food Delivery</string>
+    <string name="title_home">Home</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_profile">Profile</string>
+    <string name="restaurant_name">Restaurant Name</string>
+
+    <string name="restaurant1">Restaurant 1</string>
+    <string name="restaurant2">Restaurant 2</string>
+
+</resources>

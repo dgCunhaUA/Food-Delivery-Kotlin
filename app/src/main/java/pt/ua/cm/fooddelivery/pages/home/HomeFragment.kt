@@ -1,7 +1,10 @@
 package pt.ua.cm.fooddelivery.pages.home
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
@@ -11,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
 import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.FragmentHomeBinding
+import pt.ua.cm.fooddelivery.pages.home.details.MenuAdapter
 
 class HomeFragment : Fragment() {
 
@@ -22,12 +26,15 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.i("HomeFragment", "onCreateView")
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("HomeFragment", "onViewCreated")
+
         val slidingPaneLayout = binding.slidingPaneLayout
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -39,8 +46,13 @@ class HomeFragment : Fragment() {
             // Update the user selected sport as the current sport in the shared view-model
             // This will automatically update the dual pane content
             restaurantViewModel.updateCurrentRestaurant(it)
+            Log.i("HomeFragment", "Updated current restaurant: ${restaurantViewModel.currentRestaurant}")
+            Log.i("HomeFragment", "Updated current restaurant: ${restaurantViewModel.currentRestaurant.value}")
 
+            Log.i("HomeFragment", "Opening slide pane for: $it")
             binding.slidingPaneLayout.openPane()
+
+            //notifyItemChanged(2)
         }
         binding.recyclerView.adapter = adapter
         adapter.submitList(restaurantViewModel.restaurantData)

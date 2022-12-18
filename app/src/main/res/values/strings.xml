@@ -11,5 +11,10 @@
 
     <string name="menu1">Menu 1</string>
     <string name="menu2">Menu 2</string>
+    <string name="menu3">Menu 3</string>
+    <string name="menu4">Menu 4</string>
+
+    <string name="add_menu_to_order">Add menu to Order</string>
+    <string name="remove_from_order">Remove from Order</string>
 
 </resources>

@@ -16,7 +16,6 @@ class RestaurantViewModel : ViewModel() {
     val restaurantData: ArrayList<Restaurant>
         get() = _restaurantData
 
-
     init {
         _restaurantData = RestaurantData.getRestaurantData()
         _currentRestaurant.value = _restaurantData[0]

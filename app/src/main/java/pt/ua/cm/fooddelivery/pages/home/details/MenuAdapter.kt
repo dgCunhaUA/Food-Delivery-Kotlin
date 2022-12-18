@@ -1,6 +1,7 @@
 package pt.ua.cm.fooddelivery.pages.home.details
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.data.Menu
 import pt.ua.cm.fooddelivery.databinding.MenuItemBinding
 
-class MenusAdapter :
-    ListAdapter<Menu, MenusAdapter.MenuViewHolder>(DiffCallback) {
+class MenuAdapter :
+    ListAdapter<Menu, MenuAdapter.MenuViewHolder>(DiffCallback) {
 
     private lateinit var context: Context
 
@@ -22,14 +23,17 @@ class MenusAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(menu: Menu, context: Context) {
+            Log.i("MenuAdapter", "Binding menu")
             binding.menuTitle.text = context.getString(menu.nameResourceId)
         }
     }
 
     /**
-     * Create new views (invoked by the layout manager)
+     * Create new views
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+        Log.i("MenuAdapter", "onCreateViewHolder")
+
         context = parent.context
         return MenuViewHolder(
             MenuItemBinding.inflate(
@@ -39,14 +43,15 @@ class MenusAdapter :
     }
 
     /**
-     * Replace the contents of a view (invoked by the layout manager)
+     * Replace the contents of a view
      */
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         val current = getItem(position)
+        Log.i("MenuAdapter", "onBindViewHolder: $current")
         /*holder.itemView.setOnClickListener {
-            onItemClicked(current)
-        }
-         */
+            //onItemClicked(current)
+            Log.i("MenuAdapter", "onClick: $current")
+        }*/
         holder.bind(current, context)
     }
 

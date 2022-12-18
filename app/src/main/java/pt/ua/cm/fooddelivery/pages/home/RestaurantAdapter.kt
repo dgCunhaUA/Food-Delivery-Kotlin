@@ -3,6 +3,7 @@ package pt.ua.cm.fooddelivery.pages.home
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.data.Restaurant
 import pt.ua.cm.fooddelivery.databinding.RestaurantItemBinding
 
-class RestaurantAdapter(private val onItemClicked: (Restaurant) -> Unit) :
+class RestaurantAdapter(private val onRestaurantClicked: (Restaurant) -> Unit) :
     ListAdapter<Restaurant, RestaurantAdapter.RestaurantViewHolder>(DiffCallback) {
 
     private lateinit var context: Context
@@ -37,7 +38,8 @@ class RestaurantAdapter(private val onItemClicked: (Restaurant) -> Unit) :
     override fun onBindViewHolder(holder: RestaurantViewHolder, position: Int) {
         val current = getItem(position)
         holder.itemView.setOnClickListener {
-            onItemClicked(current)
+            onRestaurantClicked(current)
+            Log.i("RestaurantAdapter", "OnClick Listener $current")
         }
         holder.bind(current, context)
     }

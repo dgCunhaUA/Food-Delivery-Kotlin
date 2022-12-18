@@ -9,12 +9,12 @@ object RestaurantData {
             Restaurant(
                 id = 1,
                 nameResourceId = R.string.restaurant1,
-                menus = arrayListOf(Menu(1, R.string.menu1), Menu(2, R.string.menu2)),
+                menus = arrayListOf(Menu(1, R.string.menu1), Menu(2, R.string.menu2), Menu(3, R.string.menu3)),
             ),
             Restaurant(
                 id = 2,
                 nameResourceId = R.string.restaurant2,
-                menus = arrayListOf(Menu(1, R.string.menu1), Menu(2, R.string.menu2)),
+                menus = arrayListOf(Menu(1, R.string.menu1), Menu(2, R.string.menu2), Menu(4, R.string.menu4)),
             ),
         )
     }

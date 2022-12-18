@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/detail_container"
-            android:name="pt.ua.cm.fooddelivery.pages.home.RestaurantDetailsFragment"
+            android:name="pt.ua.cm.fooddelivery.pages.home.details.RestaurantDetailsFragment"
             tools:layout="@layout/fragment_restaurant_details" />
 
 

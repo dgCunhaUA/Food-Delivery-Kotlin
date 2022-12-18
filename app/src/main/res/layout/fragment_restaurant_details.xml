@@ -15,13 +15,36 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView  we w ef wef wef wef "
+            android:text="@{restaurantViewModel.currentRestaurant.nameResourceId}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="40sp"
+            android:textAlignment="center"/>
+
+        <FrameLayout
+            android:id="@+id/menus_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:context=".MainActivity">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/menus_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager"
+                android:scrollbars="vertical"
+                />
+
+        </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

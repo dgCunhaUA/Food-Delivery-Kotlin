@@ -2,6 +2,7 @@ package pt.ua.cm.fooddelivery.restaurant
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class RestaurantViewModel(private val repository: RestaurantRepository): ViewModel()
 {
@@ -10,22 +11,8 @@ class RestaurantViewModel(private val repository: RestaurantRepository): ViewMod
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun insert(restaurant: Restaurant) = viewModelScope.launch {
+    /*fun insert(restaurant: Restaurant) = viewModelScope.launch {
         repository.insert(restaurant)
-    }
-
-    /*fun addTaskItem(taskItem: TaskItem) = viewModelScope.launch {
-        repository.insertTaskItem(taskItem)
-    }
-
-    fun updateTaskItem(taskItem: TaskItem) = viewModelScope.launch {
-        repository.updateTaskItem(taskItem)
-    }
-
-    fun setCompleted(taskItem: TaskItem) = viewModelScope.launch {
-        if (!taskItem.isCompleted())
-            taskItem.completedDateString = TaskItem.dateFormatter.format(LocalDate.now())
-        repository.updateTaskItem(taskItem)
     } */
 }
 

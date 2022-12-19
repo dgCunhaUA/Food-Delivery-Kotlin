@@ -21,5 +21,7 @@ interface RestaurantDao {
 
     @Transaction
     @Query("SELECT * FROM restaurant WHERE restaurantId = :restaurantId")
-    suspend fun getRestaurantWithMenus(restaurantId: Int): List<RestaurantWithMenus>
+    fun getRestaurantWithMenus(restaurantId: Int): RestaurantWithMenus
+    //suspend fun getRestaurantWithMenus(restaurantId: Int): RestaurantWithMenus
+
 }

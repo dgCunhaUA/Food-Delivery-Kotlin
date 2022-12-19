@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
             restaurantViewModel.restaurantItems.observe(mainActivity){
                 binding.restaurantRecyclerView.apply {
                     layoutManager = LinearLayoutManager(activity?.applicationContext)
-                    //adapter = RestaurantAdapter(it, mainActivity)
                     adapter = RestaurantAdapter(it)
                 }
             }

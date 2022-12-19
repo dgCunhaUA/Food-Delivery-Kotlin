@@ -2,7 +2,6 @@ package pt.ua.cm.fooddelivery.restaurant
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 class RestaurantViewModel(private val repository: RestaurantRepository): ViewModel()
 {

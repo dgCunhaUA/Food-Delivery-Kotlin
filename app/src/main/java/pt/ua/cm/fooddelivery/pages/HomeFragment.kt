@@ -22,7 +22,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val restaurantViewModel: RestaurantViewModel by viewModels {
-        RestaurantModelFactory((activity?.application as DeliveryApplication).repository)
+        RestaurantModelFactory((activity?.application as DeliveryApplication).restaurantRepository)
     }
 
     override fun onCreateView(

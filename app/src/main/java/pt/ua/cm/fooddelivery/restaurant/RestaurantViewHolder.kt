@@ -1,7 +1,6 @@
 package pt.ua.cm.fooddelivery.restaurant
 
 import android.content.Context
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +19,9 @@ class RestaurantViewHolder(
         binding.restaurantName.text = restaurant.name
 
         binding.restaurantCellContainer.setOnClickListener {
-            Timber.i( "CLICKED: ${restaurant.id}")
+            Timber.i( "CLICKED: ${restaurant.restaurantId}")
 
-            val bundle = bundleOf("id" to restaurant.id)
+            val bundle = bundleOf("id" to restaurant.restaurantId)
             it.findNavController()
                 .navigate(R.id.action_homeFragment_to_restaurantFragment, bundle)
         }

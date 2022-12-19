@@ -8,11 +8,13 @@ import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ua.cm.fooddelivery.menu.Menu
 import pt.ua.cm.fooddelivery.restaurant.Restaurant
 import pt.ua.cm.fooddelivery.restaurant.RestaurantDao
+import timber.log.Timber
 
 
-@Database(entities = [Restaurant::class], version = 1, exportSchema = false)
+@Database(entities = [Restaurant::class, Menu::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun restaurantDao(): RestaurantDao
@@ -81,11 +83,15 @@ abstract class AppDatabase : RoomDatabase() {
         private suspend fun populateDatabase(restaurantDao: RestaurantDao) {
             // Start the app with a clean database every time.
             // Not needed if you only populate on creation.
-            Log.i("AppDatabase", "Populating Database")
+            Timber.i("Populating Database")
 
             restaurantDao.deleteAll()
-            restaurantDao.insert(Restaurant(0, "Restaurant1"))
-            restaurantDao.insert(Restaurant(1, "Restaurant2"))
+            restaurantDao.insert(Restaurant(0, "Restaurant0"))
+            restaurantDao.insert(Restaurant(1, "Restaurant1"))
+
+            restaurantDao.insertMenu(Menu(0, "Menu 0", 0))
+            restaurantDao.insertMenu(Menu(1, "Menu 1", 1))
+
         }
 
     }

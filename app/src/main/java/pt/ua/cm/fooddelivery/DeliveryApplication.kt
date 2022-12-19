@@ -12,8 +12,9 @@ class DeliveryApplication: Application() {
     val applicationScope = CoroutineScope(SupervisorJob())
 
     private val database by lazy { AppDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { RestaurantRepository(database.restaurantDao()) }
-
+    val restaurantRepository by lazy {
+        RestaurantRepository(database.restaurantDao())
+    }
 
     override fun onCreate() {
         super.onCreate()

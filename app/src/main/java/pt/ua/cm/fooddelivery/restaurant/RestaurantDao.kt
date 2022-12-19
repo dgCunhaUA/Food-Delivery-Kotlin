@@ -1,10 +1,8 @@
 package pt.ua.cm.fooddelivery.restaurant
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import pt.ua.cm.fooddelivery.menu.Menu
 
 @Dao
 interface RestaurantDao {
@@ -18,4 +16,10 @@ interface RestaurantDao {
     @Query("DELETE FROM restaurant")
     suspend fun deleteAll()
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMenu(menu: Menu)
+
+    @Transaction
+    @Query("SELECT * FROM restaurant WHERE restaurantId = :restaurantId")
+    suspend fun getRestaurantWithMenus(restaurantId: Int): List<RestaurantWithMenus>
 }

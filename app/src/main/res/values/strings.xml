@@ -1,20 +1,6 @@
 <resources>
-    <string name="app_name">Food Delivery</string>
-    <string name="title_home">Home</string>
+    <string name="app_name">FoodDelivery</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_cart">Cart</string>
-    <string name="title_profile">Profile</string>
     <string name="restaurant_name">Restaurant Name</string>
-
-    <string name="restaurant1">Restaurant 1</string>
-    <string name="restaurant2">Restaurant 2</string>
-
-    <string name="menu1">Menu 1</string>
-    <string name="menu2">Menu 2</string>
-    <string name="menu3">Menu 3</string>
-    <string name="menu4">Menu 4</string>
-
-    <string name="add_menu_to_order">Add menu to Order</string>
-    <string name="remove_from_order">Remove from Order</string>
-
 </resources>

@@ -1,34 +1,36 @@
 package pt.ua.cm.fooddelivery
 
-import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import android.os.Bundle
+import android.util.AttributeSet
+import android.util.Log
+import android.view.View
+import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.databinding.ActivityMainBinding
+import pt.ua.cm.fooddelivery.restaurant.RestaurantAdapter
+import pt.ua.cm.fooddelivery.restaurant.RestaurantModelFactory
+import pt.ua.cm.fooddelivery.restaurant.RestaurantViewModel
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("MainActivity", "onCreate Called")
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        val navView: BottomNavigationView = binding.navView
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        NavigationUI.setupActionBarWithNavController(this,navController)
+    }
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.myNavHostFragment) as NavHostFragment
-        val navController: NavController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_cart, R.id.navigation_profile))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp()
     }
 
 }

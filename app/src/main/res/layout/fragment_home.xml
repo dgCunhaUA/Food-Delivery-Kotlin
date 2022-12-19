@@ -1,36 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-
-    </data>
-
-    <androidx.slidingpanelayout.widget.SlidingPaneLayout
-        android:id="@id/sliding_pane_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/restaurant_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".pages.home.RestaurantListFragment">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/design_default_color_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="550dp"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
-
-
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/detail_container"
-            android:name="pt.ua.cm.fooddelivery.pages.home.details.RestaurantDetailsFragment"
-            tools:layout="@layout/fragment_restaurant_details" />
-
-
-    </androidx.slidingpanelayout.widget.SlidingPaneLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,11 +10,8 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant")
     fun getAll(): Flow<List<Restaurant>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(restaurant: Restaurant)
-
-    @Query("DELETE FROM restaurant")
-    suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMenu(menu: Menu)
@@ -23,5 +20,8 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant WHERE restaurantId = :restaurantId")
     fun getRestaurantWithMenus(restaurantId: Int): RestaurantWithMenus
     //suspend fun getRestaurantWithMenus(restaurantId: Int): RestaurantWithMenus
+
+    @Query("DELETE FROM restaurant")
+    suspend fun deleteAll()
 
 }

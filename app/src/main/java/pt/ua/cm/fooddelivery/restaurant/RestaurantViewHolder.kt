@@ -19,8 +19,6 @@ class RestaurantViewHolder(
         binding.restaurantName.text = restaurant.name
 
         binding.restaurantCellContainer.setOnClickListener {
-            Timber.i( "CLICKED: ${restaurant.restaurantId}")
-
             val bundle = bundleOf("id" to restaurant.restaurantId)
             it.findNavController()
                 .navigate(R.id.action_homeFragment_to_restaurantFragment, bundle)

@@ -16,7 +16,7 @@ class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
 
-    private val cartViewModel: OrderViewModel by viewModels {
+    private val orderViewModel: OrderViewModel by viewModels {
         OrderModelFactory((activity?.application as DeliveryApplication).orderRepository)
     }
 
@@ -37,7 +37,7 @@ class CartFragment : Fragment() {
     {
         val mainActivity = this.activity
         if (mainActivity != null) {
-            cartViewModel.cartMenus.observe(viewLifecycleOwner) {
+            orderViewModel.currentCart.observe(viewLifecycleOwner) {
 
                 binding.cartRecyclerView.apply {
                     if(it != null) {
@@ -46,7 +46,7 @@ class CartFragment : Fragment() {
                     }
                 }
             }
-            cartViewModel.getCartMenus()
+            orderViewModel.getCurrentCart()
         }
     }
 }

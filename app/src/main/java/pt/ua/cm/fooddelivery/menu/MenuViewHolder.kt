@@ -8,6 +8,7 @@ import timber.log.Timber
 class MenuViewHolder(
     private val context: Context,
     private val binding: MenuItemBinding,
+    private val clickListener: MenuItemClickListener
 ): RecyclerView.ViewHolder(binding.root)
 {
 
@@ -15,8 +16,14 @@ class MenuViewHolder(
     {
         binding.menuName.text = menu.name
 
-        binding.menuCellContainer.setOnClickListener {
-            Timber.i( "CLICKED: $menu")
+        binding.addBtn.setOnClickListener {
+            Timber.i("Adding $menu")
+            clickListener.addMenuToCart(menu)
+        }
+
+        binding.rmBtn.setOnClickListener {
+            Timber.i("Removing $menu")
+            clickListener.rmMenuFromCart(menu)
         }
     }
 }

@@ -23,4 +23,5 @@ class RestaurantRepository(private val restaurantDao: RestaurantDao)
         //restaurantMenus = restaurantDao.getRestaurantWithMenus(restaurantId)
         restaurantMenus.postValue(restaurantDao.getRestaurantWithMenus(restaurantId))
     }
+
 }

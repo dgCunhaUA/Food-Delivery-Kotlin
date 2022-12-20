@@ -1,5 +1,6 @@
 package pt.ua.cm.fooddelivery.menu
 
+import androidx.annotation.Nullable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,5 +10,6 @@ import androidx.room.PrimaryKey
 data class Menu(
     @PrimaryKey val menuId: Int,
     @ColumnInfo(name = "name") val name: String,
-    val restaurantId: Int,
+    @ColumnInfo(name = "restaurantId") val restaurantId: Int,
+    @ColumnInfo(name = "orderId") val orderId: Int?,
 )

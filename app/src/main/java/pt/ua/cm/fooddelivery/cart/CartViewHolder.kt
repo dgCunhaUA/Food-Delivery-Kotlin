@@ -14,6 +14,6 @@ class CartViewHolder(
 
     fun bindCartItem(menu: Menu)
     {
-        binding.cartMenuId.text = menu.menuId.toString()
+        binding.cartMenuId.text = menu.name
     }
 }

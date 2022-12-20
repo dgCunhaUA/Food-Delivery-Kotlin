@@ -14,8 +14,8 @@ data class OrderWithMenus (
     @Embedded
     val order: Order,
     @Relation(
-        parentColumn = "restaurantId",
-        entityColumn = "restaurantId"
+        parentColumn = "orderId",
+        entityColumn = "orderId",
     )
     val menus: List<Menu>
 )

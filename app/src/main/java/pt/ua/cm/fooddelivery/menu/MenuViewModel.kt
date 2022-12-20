@@ -19,7 +19,6 @@ class MenuViewModel(private val repository: RestaurantRepository): ViewModel() {
             repository.getData(restaurantId)
         }
     }
-
      */
 
     /**

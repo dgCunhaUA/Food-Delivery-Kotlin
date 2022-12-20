@@ -7,14 +7,15 @@ import pt.ua.cm.fooddelivery.databinding.MenuItemBinding
 import pt.ua.cm.fooddelivery.restaurant.RestaurantWithMenus
 
 class MenuAdapter(
-    private val restaurantWithMenus: RestaurantWithMenus
+    private val restaurantWithMenus: RestaurantWithMenus,
+    private val clickListener: MenuItemClickListener
 ): RecyclerView.Adapter<MenuViewHolder>()
 {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = MenuItemBinding.inflate(from, parent, false)
-        return MenuViewHolder(parent.context, binding)
+        return MenuViewHolder(parent.context, binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {

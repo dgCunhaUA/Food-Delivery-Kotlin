@@ -1,23 +1,56 @@
 package pt.ua.cm.fooddelivery.cart
 
+import android.view.Gravity
+import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.restaurant.Restaurant
-import pt.ua.cm.fooddelivery.restaurant.RestaurantWithMenus
+import pt.ua.cm.fooddelivery.menu.Menu
+import timber.log.Timber
+import java.util.*
 
 class OrderViewModel(private val repository: OrderRepository): ViewModel()
 {
 
-    val cartMenus: LiveData<OrderWithMenus> = repository.cartMenus
+    val currentCart: LiveData<OrderWithMenus> = repository.currentCart
 
-    fun getCartMenus() {
+    val error: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    fun getCurrentCart() {
         CoroutineScope(Dispatchers.IO).launch {
-            repository.getCartMenus()
+            repository.getCurrentCart()
+        }
+    }
+
+    fun addMenuToCart(menu: Menu) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (
+                (currentCart.value?.menus?.isNotEmpty() == true &&
+                        currentCart.value?.menus!![0].restaurantId == menu.restaurantId)
+                || currentCart.value?.menus?.isEmpty() == true
+            )
+            {
+                Timber.i("Inserting menu ${menu.menuId} in order ${currentCart.value!!.order.orderId}")
+                currentCart.value?.order?.let { repository.addMenuToCart(menu, it.orderId) }
+            } else {
+                Timber.i("Error Inserting menu ${menu.menuId}")
+                error.postValue(true)
+            }
+        }
+    }
+
+    fun rmMenuFromCart(menu: Menu) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (currentCart.value?.menus?.contains(menu) == true) {
+                Timber.i("Removing menu ${menu.menuId} from order")
+                repository.rmMenuFromCart(menu)
+            } else {
+                Timber.i("Error removing menu ${menu.menuId}")
+            }
         }
     }
 }

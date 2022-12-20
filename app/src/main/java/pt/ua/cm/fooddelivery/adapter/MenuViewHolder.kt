@@ -1,8 +1,9 @@
-package pt.ua.cm.fooddelivery.menu
+package pt.ua.cm.fooddelivery.adapter
 
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.databinding.MenuItemBinding
+import pt.ua.cm.fooddelivery.entities.Menu
 import timber.log.Timber
 
 class MenuViewHolder(

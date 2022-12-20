@@ -1,12 +1,8 @@
-package pt.ua.cm.fooddelivery.cart
+package pt.ua.cm.fooddelivery.repository
 
-import android.content.ClipData
-import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import pt.ua.cm.fooddelivery.menu.Menu
-import timber.log.Timber
+import pt.ua.cm.fooddelivery.entities.OrderWithMenus
+import pt.ua.cm.fooddelivery.entities.Menu
 
 class OrderRepository(private val orderDao: OrderDao) {
 

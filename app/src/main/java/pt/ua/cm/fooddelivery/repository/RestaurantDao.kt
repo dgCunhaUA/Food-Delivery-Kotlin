@@ -1,8 +1,10 @@
-package pt.ua.cm.fooddelivery.restaurant
+package pt.ua.cm.fooddelivery.repository
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import pt.ua.cm.fooddelivery.menu.Menu
+import pt.ua.cm.fooddelivery.entities.Restaurant
+import pt.ua.cm.fooddelivery.entities.RestaurantWithMenus
+import pt.ua.cm.fooddelivery.entities.Menu
 
 @Dao
 interface RestaurantDao {

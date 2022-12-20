@@ -1,16 +1,15 @@
 package pt.ua.cm.fooddelivery.database
 
 import android.content.Context
-import androidx.annotation.WorkerThread
 import androidx.room.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.menu.Menu
-import pt.ua.cm.fooddelivery.cart.Order
-import pt.ua.cm.fooddelivery.cart.OrderDao
-import pt.ua.cm.fooddelivery.restaurant.Restaurant
-import pt.ua.cm.fooddelivery.restaurant.RestaurantDao
+import pt.ua.cm.fooddelivery.entities.Menu
+import pt.ua.cm.fooddelivery.entities.Order
+import pt.ua.cm.fooddelivery.repository.OrderDao
+import pt.ua.cm.fooddelivery.entities.Restaurant
+import pt.ua.cm.fooddelivery.repository.RestaurantDao
 import timber.log.Timber
 
 

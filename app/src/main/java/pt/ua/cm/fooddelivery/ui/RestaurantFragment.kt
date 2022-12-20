@@ -1,6 +1,5 @@
-package pt.ua.cm.fooddelivery.pages
+package pt.ua.cm.fooddelivery.ui
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
+import pt.ua.cm.fooddelivery.adapter.MenuAdapter
+import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
 import pt.ua.cm.fooddelivery.cart.OrderModelFactory
 import pt.ua.cm.fooddelivery.cart.OrderViewModel
 import pt.ua.cm.fooddelivery.databinding.FragmentRestaurantBinding
+import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.menu.*
 import timber.log.Timber
 

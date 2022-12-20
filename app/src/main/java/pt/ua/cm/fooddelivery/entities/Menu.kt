@@ -1,4 +1,4 @@
-package pt.ua.cm.fooddelivery.menu
+package pt.ua.cm.fooddelivery.entities
 
 import androidx.annotation.Nullable
 import androidx.room.ColumnInfo

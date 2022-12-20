@@ -1,7 +1,5 @@
 package pt.ua.cm.fooddelivery.cart
 
-import android.view.Gravity
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.menu.Menu
+import pt.ua.cm.fooddelivery.entities.OrderWithMenus
+import pt.ua.cm.fooddelivery.entities.Menu
+import pt.ua.cm.fooddelivery.repository.OrderRepository
 import timber.log.Timber
-import java.util.*
 
 class OrderViewModel(private val repository: OrderRepository): ViewModel()
 {

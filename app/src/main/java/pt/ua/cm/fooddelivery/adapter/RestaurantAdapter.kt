@@ -1,9 +1,10 @@
-package pt.ua.cm.fooddelivery.restaurant
+package pt.ua.cm.fooddelivery.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.databinding.RestaurantItemBinding
+import pt.ua.cm.fooddelivery.entities.Restaurant
 
 class RestaurantAdapter(
     private val restaurants: List<Restaurant>

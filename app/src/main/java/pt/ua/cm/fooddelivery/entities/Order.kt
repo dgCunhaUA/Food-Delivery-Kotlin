@@ -1,7 +1,6 @@
-package pt.ua.cm.fooddelivery.cart
+package pt.ua.cm.fooddelivery.entities
 
 import androidx.room.*
-import pt.ua.cm.fooddelivery.menu.Menu
 
 @Entity(tableName = "order")
 data class Order(

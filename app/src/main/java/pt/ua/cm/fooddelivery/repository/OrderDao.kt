@@ -1,8 +1,8 @@
-package pt.ua.cm.fooddelivery.cart
+package pt.ua.cm.fooddelivery.repository
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
-import pt.ua.cm.fooddelivery.menu.Menu
+import pt.ua.cm.fooddelivery.entities.Order
+import pt.ua.cm.fooddelivery.entities.OrderWithMenus
 
 @Dao
 interface OrderDao {

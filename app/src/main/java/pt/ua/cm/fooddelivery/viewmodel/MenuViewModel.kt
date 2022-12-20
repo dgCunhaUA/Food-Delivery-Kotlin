@@ -4,8 +4,8 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.restaurant.RestaurantRepository
-import pt.ua.cm.fooddelivery.restaurant.RestaurantWithMenus
+import pt.ua.cm.fooddelivery.repository.RestaurantRepository
+import pt.ua.cm.fooddelivery.entities.RestaurantWithMenus
 
 class MenuViewModel(private val repository: RestaurantRepository): ViewModel() {
 

@@ -1,10 +1,10 @@
-package pt.ua.cm.fooddelivery.cart
+package pt.ua.cm.fooddelivery.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.databinding.CartItemBinding
-import pt.ua.cm.fooddelivery.menu.MenuItemClickListener
+import pt.ua.cm.fooddelivery.entities.OrderWithMenus
 import timber.log.Timber
 
 class CartAdapter(

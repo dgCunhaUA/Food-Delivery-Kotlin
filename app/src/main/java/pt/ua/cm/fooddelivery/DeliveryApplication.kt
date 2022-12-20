@@ -4,8 +4,8 @@ import android.app.Application
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import pt.ua.cm.fooddelivery.database.AppDatabase
-import pt.ua.cm.fooddelivery.cart.OrderRepository
-import pt.ua.cm.fooddelivery.restaurant.RestaurantRepository
+import pt.ua.cm.fooddelivery.repository.OrderRepository
+import pt.ua.cm.fooddelivery.repository.RestaurantRepository
 import timber.log.Timber
 
 class DeliveryApplication: Application() {

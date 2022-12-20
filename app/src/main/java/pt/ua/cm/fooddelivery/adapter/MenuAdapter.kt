@@ -1,10 +1,10 @@
-package pt.ua.cm.fooddelivery.menu
+package pt.ua.cm.fooddelivery.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.databinding.MenuItemBinding
-import pt.ua.cm.fooddelivery.restaurant.RestaurantWithMenus
+import pt.ua.cm.fooddelivery.entities.RestaurantWithMenus
 
 class MenuAdapter(
     private val restaurantWithMenus: RestaurantWithMenus,

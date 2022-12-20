@@ -1,4 +1,4 @@
-package pt.ua.cm.fooddelivery.restaurant
+package pt.ua.cm.fooddelivery.adapter
 
 import android.content.Context
 import androidx.core.os.bundleOf
@@ -6,7 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.RestaurantItemBinding
-import timber.log.Timber
+import pt.ua.cm.fooddelivery.entities.Restaurant
 
 class RestaurantViewHolder(
     private val context: Context,

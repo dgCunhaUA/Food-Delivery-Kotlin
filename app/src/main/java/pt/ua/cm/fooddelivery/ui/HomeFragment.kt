@@ -1,19 +1,15 @@
-package pt.ua.cm.fooddelivery.pages
+package pt.ua.cm.fooddelivery.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
-import pt.ua.cm.fooddelivery.databinding.ActivityMainBinding
 import pt.ua.cm.fooddelivery.databinding.FragmentHomeBinding
-import pt.ua.cm.fooddelivery.restaurant.RestaurantAdapter
+import pt.ua.cm.fooddelivery.adapter.RestaurantAdapter
 import pt.ua.cm.fooddelivery.restaurant.RestaurantModelFactory
 import pt.ua.cm.fooddelivery.restaurant.RestaurantViewModel
 

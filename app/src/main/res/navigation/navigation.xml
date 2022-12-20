@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="pt.ua.cm.fooddelivery.pages.HomeFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/restaurant_fragment"
-        android:name="pt.ua.cm.fooddelivery.pages.RestaurantFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.RestaurantFragment"
         android:label="@string/title_restaurant_details"
         tools:layout="@layout/fragment_restaurant" >
         <argument
@@ -27,13 +27,13 @@
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="pt.ua.cm.fooddelivery.pages.CartFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="pt.ua.cm.fooddelivery.pages.ProfileFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="pt.ua.cm.fooddelivery.pages.HomeFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
@@ -55,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/restaurantFragment"
-        android:name="pt.ua.cm.fooddelivery.pages.RestaurantFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.RestaurantFragment"
         android:label="fragment_restaurant"
         tools:layout="@layout/fragment_restaurant" >
         <argument
@@ -64,11 +64,11 @@
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="pt.ua.cm.fooddelivery.pages.CartFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.CartFragment"
         android:label="CartFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="pt.ua.cm.fooddelivery.pages.ProfileFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 

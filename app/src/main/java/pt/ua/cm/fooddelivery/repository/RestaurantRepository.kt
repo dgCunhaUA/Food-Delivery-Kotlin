@@ -1,14 +1,9 @@
-package pt.ua.cm.fooddelivery.restaurant
+package pt.ua.cm.fooddelivery.repository
 
-import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.menu.Menu
-import timber.log.Timber
+import pt.ua.cm.fooddelivery.entities.Restaurant
+import pt.ua.cm.fooddelivery.entities.RestaurantWithMenus
 
 
 class RestaurantRepository(private val restaurantDao: RestaurantDao)

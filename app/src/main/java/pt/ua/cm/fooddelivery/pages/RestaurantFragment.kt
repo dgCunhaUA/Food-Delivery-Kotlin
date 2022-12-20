@@ -1,26 +1,20 @@
 package pt.ua.cm.fooddelivery.pages
 
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.cart.OrderModelFactory
 import pt.ua.cm.fooddelivery.cart.OrderViewModel
-import pt.ua.cm.fooddelivery.databinding.FragmentHomeBinding
 import pt.ua.cm.fooddelivery.databinding.FragmentRestaurantBinding
 import pt.ua.cm.fooddelivery.menu.*
-import pt.ua.cm.fooddelivery.restaurant.RestaurantAdapter
-import pt.ua.cm.fooddelivery.restaurant.RestaurantModelFactory
-import pt.ua.cm.fooddelivery.restaurant.RestaurantViewModel
-import pt.ua.cm.fooddelivery.restaurant.RestaurantWithMenus
 import timber.log.Timber
 
 class RestaurantFragment : Fragment(), MenuItemClickListener {
@@ -53,7 +47,7 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
         binding = FragmentRestaurantBinding.inflate(layoutInflater)
 
         setFields()
-        observeErrors()
+        observeFeedback()
 
         return binding.root
     }
@@ -75,23 +69,43 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
         }
     }
 
-    private fun observeErrors() {
-        orderViewModel.error.observe(viewLifecycleOwner) {
-            Timber.i(it.toString())
-
-            if(it == true) {
-                val toast = Toast.makeText(context, "Error Adding Menu", Toast.LENGTH_SHORT)
+    private fun observeFeedback() {
+        orderViewModel.feedbackMessage.observe(viewLifecycleOwner) {
+            if (it != null) {
+                val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 toast.show()
             }
+            orderViewModel.feedbackMessage.postValue(null)
         }
         orderViewModel.getCurrentCart()
     }
 
     override fun addMenuToCart(menu: Menu) {
         orderViewModel.addMenuToCart(menu)
+        //orderViewModel.getCurrentCart()
+        //menuViewModel.getRestaurantMenus(menu.restaurantId)
     }
 
     override fun rmMenuFromCart(menu: Menu) {
         orderViewModel.rmMenuFromCart(menu)
+        //orderViewModel.getCurrentCart()
+        //menuViewModel.getRestaurantMenus(menu.restaurantId)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("Pause")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Timber.i("detach")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.i("detroy iew")
+
+
     }
 }

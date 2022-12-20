@@ -4,17 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pt.ua.cm.fooddelivery.databinding.CartItemBinding
+import pt.ua.cm.fooddelivery.menu.MenuItemClickListener
 import timber.log.Timber
 
 class CartAdapter(
-    private val orderWithMenus: OrderWithMenus
+    private val orderWithMenus: OrderWithMenus,
+    private val clickListener: MenuItemClickListener
 ): RecyclerView.Adapter<CartViewHolder>()
 {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = CartItemBinding.inflate(from, parent, false)
-        return CartViewHolder(parent.context, binding)
+        return CartViewHolder(parent.context, binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {

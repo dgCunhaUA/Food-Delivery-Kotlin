@@ -15,10 +15,9 @@ import java.util.*
 
 class OrderViewModel(private val repository: OrderRepository): ViewModel()
 {
-
     val currentCart: LiveData<OrderWithMenus> = repository.currentCart
 
-    val error: MutableLiveData<Boolean> = MutableLiveData(false)
+    val feedbackMessage: MutableLiveData<String?> = MutableLiveData(null)
 
     fun getCurrentCart() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -36,20 +35,23 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel()
             {
                 Timber.i("Inserting menu ${menu.menuId} in order ${currentCart.value!!.order.orderId}")
                 currentCart.value?.order?.let { repository.addMenuToCart(menu, it.orderId) }
+                feedbackMessage.postValue("Added")
             } else {
                 Timber.i("Error Inserting menu ${menu.menuId}")
-                error.postValue(true)
+                feedbackMessage.postValue("Error Inserting menu")
             }
         }
     }
 
     fun rmMenuFromCart(menu: Menu) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (currentCart.value?.menus?.contains(menu) == true) {
+            if (currentCart.value?.menus?.any { x1 -> x1.menuId == menu.menuId}  == true) {
                 Timber.i("Removing menu ${menu.menuId} from order")
                 repository.rmMenuFromCart(menu)
+                feedbackMessage.postValue("Removed")
             } else {
                 Timber.i("Error removing menu ${menu.menuId}")
+                feedbackMessage.postValue("Error removing menu")
             }
         }
     }

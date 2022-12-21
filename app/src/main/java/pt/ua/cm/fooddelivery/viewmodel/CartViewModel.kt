@@ -12,7 +12,7 @@ import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.repository.OrderRepository
 import timber.log.Timber
 
-class OrderViewModel(private val repository: OrderRepository): ViewModel()
+class CartViewModel(private val repository: OrderRepository): ViewModel()
 {
     val currentCart: LiveData<OrderWithMenus> = repository.currentCart
 
@@ -56,12 +56,12 @@ class OrderViewModel(private val repository: OrderRepository): ViewModel()
     }
 }
 
-class OrderModelFactory(private val repository: OrderRepository) : ViewModelProvider.Factory
+class CartModelFactory(private val repository: OrderRepository) : ViewModelProvider.Factory
 {
     override fun <T : ViewModel> create(modelClass: Class<T>): T
     {
-        if (modelClass.isAssignableFrom(OrderViewModel::class.java))
-            return OrderViewModel(repository) as T
+        if (modelClass.isAssignableFrom(CartViewModel::class.java))
+            return CartViewModel(repository) as T
 
         throw IllegalArgumentException("Unknown ViewModel class")
     }

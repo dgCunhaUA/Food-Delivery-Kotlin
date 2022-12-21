@@ -16,4 +16,6 @@
     <string name="profile_image">Profile Image</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
+    <string name="finish_order">Finish Order</string>
+    <string name="deliveries_status">Deliveries Status</string>
 </resources>

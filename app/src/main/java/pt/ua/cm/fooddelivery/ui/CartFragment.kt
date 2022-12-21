@@ -12,8 +12,8 @@ import pt.ua.cm.fooddelivery.adapter.CartAdapter
 import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
-import pt.ua.cm.fooddelivery.viewmodel.OrderModelFactory
-import pt.ua.cm.fooddelivery.viewmodel.OrderViewModel
+import pt.ua.cm.fooddelivery.viewmodel.CartModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.CartViewModel
 import timber.log.Timber
 
 
@@ -21,8 +21,8 @@ class CartFragment : Fragment(), MenuItemClickListener {
 
     private lateinit var binding: FragmentCartBinding
 
-    private val orderViewModel: OrderViewModel by viewModels {
-        OrderModelFactory((activity?.application as DeliveryApplication).orderRepository)
+    private val orderViewModel: CartViewModel by viewModels {
+        CartModelFactory((activity?.application as DeliveryApplication).orderRepository)
     }
 
     override fun onCreateView(

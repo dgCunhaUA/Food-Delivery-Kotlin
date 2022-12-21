@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
 import pt.ua.cm.fooddelivery.adapter.MenuAdapter
 import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
-import pt.ua.cm.fooddelivery.viewmodel.OrderModelFactory
-import pt.ua.cm.fooddelivery.viewmodel.OrderViewModel
 import pt.ua.cm.fooddelivery.databinding.FragmentRestaurantBinding
 import pt.ua.cm.fooddelivery.entities.Menu
+import pt.ua.cm.fooddelivery.viewmodel.CartModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.CartViewModel
 import pt.ua.cm.fooddelivery.viewmodel.MenuModelFactory
 import pt.ua.cm.fooddelivery.viewmodel.MenuViewModel
 import timber.log.Timber
@@ -30,8 +30,8 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
         MenuModelFactory((activity?.application as DeliveryApplication).restaurantRepository)
     }
 
-    private val orderViewModel: OrderViewModel by viewModels {
-        OrderModelFactory((activity?.application as DeliveryApplication).orderRepository)
+    private val cartViewModel: CartViewModel by viewModels {
+        CartModelFactory((activity?.application as DeliveryApplication).orderRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,42 +73,25 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
     }
 
     private fun observeFeedback() {
-        orderViewModel.feedbackMessage.observe(viewLifecycleOwner) {
+        cartViewModel.feedbackMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 toast.show()
             }
-            orderViewModel.feedbackMessage.postValue(null)
+            cartViewModel.feedbackMessage.postValue(null)
         }
-        orderViewModel.getCurrentCart()
+        cartViewModel.getCurrentCart()
     }
 
     override fun addMenuToCart(menu: Menu) {
-        orderViewModel.addMenuToCart(menu)
+        cartViewModel.addMenuToCart(menu)
         //orderViewModel.getCurrentCart()
         //menuViewModel.getRestaurantMenus(menu.restaurantId)
     }
 
     override fun rmMenuFromCart(menu: Menu) {
-        orderViewModel.rmMenuFromCart(menu)
+        cartViewModel.rmMenuFromCart(menu)
         //orderViewModel.getCurrentCart()
         //menuViewModel.getRestaurantMenus(menu.restaurantId)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Timber.i("Pause")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Timber.i("detach")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Timber.i("detroy iew")
-
-
     }
 }

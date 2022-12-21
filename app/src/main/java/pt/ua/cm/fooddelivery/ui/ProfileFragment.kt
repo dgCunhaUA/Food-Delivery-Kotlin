@@ -1,5 +1,6 @@
 package pt.ua.cm.fooddelivery.ui
 
+import android.R.attr.path
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,18 +14,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.WorkerThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.MainActivity
 import pt.ua.cm.fooddelivery.databinding.FragmentProfileBinding
 import pt.ua.cm.fooddelivery.entities.Client
+import pt.ua.cm.fooddelivery.network.Api
 import pt.ua.cm.fooddelivery.viewmodel.ProfileModelFactory
 import pt.ua.cm.fooddelivery.viewmodel.ProfileViewModel
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
+import java.io.OutputStream
 import java.net.URL
 
 
@@ -36,7 +39,7 @@ class ProfileFragment : Fragment() {
         ProfileModelFactory((activity?.application as DeliveryApplication).userRepository)
     }
 
-    private val cameraRequest = 1888
+    private val api = Api
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +60,9 @@ class ProfileFragment : Fragment() {
                 val data: Intent? = result.data
 
                 if (data != null) {
-                    binding.profileImage.setImageBitmap(data.extras?.get("data") as Bitmap)
+                    val bitmap = data.extras?.get("data") as Bitmap
+                    binding.profileImage.setImageBitmap(bitmap)
+                    persistImage(bitmap)
                 }
             }
         }
@@ -82,6 +87,27 @@ class ProfileFragment : Fragment() {
                 binding.addressTextField.text = it.address
             }
         }
+    }
+
+    private fun persistImage(bitmap: Bitmap) {
+        val filesDir: File = requireActivity().filesDir
+        Timber.i(filesDir.toString())
+        val profilePicture = File(filesDir, "profile_pic.png")
+        val os: OutputStream
+        try {
+            os = FileOutputStream(profilePicture)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os)
+            os.flush()
+            os.close()
+        } catch (e: java.lang.Exception) {
+            Timber.i("Error writing bitmap $e")
+        }
+
+        Timber.i("${profilePicture.isFile}")
+        Timber.i(profilePicture.length().toString())
+        Timber.i(profilePicture.path)
+
+        //profileViewModel.uploadProfilePicture(profilePicture)
     }
 
     @WorkerThread

@@ -72,7 +72,6 @@ class LoginViewModel(application: Application, private val userRepository: UserR
                             // Error logging in
                         }
                     }
-
                 })
 
             } catch (ex: Exception) {

@@ -11,15 +11,6 @@ class UserRepository(private val userDao: UserDao) {
 
     val currentClient: Flow<Client?> = userDao.getClient()
 
-    /*suspend fun loginClient(loginRequest: LoginRequest): Response<LoginResponse>? {
-        //return  Api.getApi()?.loginUser(loginRequest = loginRequest)
-        return Api.apiService.loginClient(loginRequest = loginRequest)
-    }
-
-     */
-
-
-
     suspend fun insertClient(client: Client) {
         userDao.insert(client)
     }

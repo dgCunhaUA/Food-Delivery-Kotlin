@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
 import pt.ua.cm.fooddelivery.databinding.FragmentHomeBinding
 import pt.ua.cm.fooddelivery.adapter.RestaurantAdapter
-import pt.ua.cm.fooddelivery.restaurant.RestaurantModelFactory
-import pt.ua.cm.fooddelivery.restaurant.RestaurantViewModel
+import pt.ua.cm.fooddelivery.viewmodel.RestaurantModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.RestaurantViewModel
 
 class HomeFragment : Fragment() {
 
@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(layoutInflater)
 
         setRecyclerView()
+
 
         return binding.root
     }

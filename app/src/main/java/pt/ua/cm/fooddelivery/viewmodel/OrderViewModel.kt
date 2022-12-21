@@ -1,4 +1,4 @@
-package pt.ua.cm.fooddelivery.cart
+package pt.ua.cm.fooddelivery.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

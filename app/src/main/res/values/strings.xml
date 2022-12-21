@@ -9,4 +9,7 @@
     <string name="title_restaurant_details">Restaurant Details</string>
     <string name="add_menu_to_order">Add Menu</string>
     <string name="remove_from_order">Add Menu</string>
+    <string name="emailHint">Email</string>
+    <string name="passwordHint">Password</string>
+    <string name="login">Login</string>
 </resources>

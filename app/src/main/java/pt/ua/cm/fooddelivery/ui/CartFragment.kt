@@ -9,10 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
 import pt.ua.cm.fooddelivery.adapter.CartAdapter
-import pt.ua.cm.fooddelivery.cart.*
 import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
+import pt.ua.cm.fooddelivery.viewmodel.OrderModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.OrderViewModel
 import timber.log.Timber
 
 

@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
 import pt.ua.cm.fooddelivery.adapter.MenuAdapter
 import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
-import pt.ua.cm.fooddelivery.cart.OrderModelFactory
-import pt.ua.cm.fooddelivery.cart.OrderViewModel
+import pt.ua.cm.fooddelivery.viewmodel.OrderModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.OrderViewModel
 import pt.ua.cm.fooddelivery.databinding.FragmentRestaurantBinding
 import pt.ua.cm.fooddelivery.entities.Menu
-import pt.ua.cm.fooddelivery.menu.*
+import pt.ua.cm.fooddelivery.viewmodel.MenuModelFactory
+import pt.ua.cm.fooddelivery.viewmodel.MenuViewModel
 import timber.log.Timber
 
 class RestaurantFragment : Fragment(), MenuItemClickListener {

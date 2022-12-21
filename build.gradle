@@ -8,6 +8,8 @@ buildscript {
         roomVersion = "2.4.3"
         lifecycleVersion = "2.5.1"
         coroutines = '1.6.0'
+        moshiVersion = "1.14.0"
+        retrofitVersion = "2.9.0"
     }
 
     dependencies {

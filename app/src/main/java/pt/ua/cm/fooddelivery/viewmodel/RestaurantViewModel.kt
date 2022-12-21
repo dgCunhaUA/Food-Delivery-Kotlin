@@ -1,4 +1,4 @@
-package pt.ua.cm.fooddelivery.restaurant
+package pt.ua.cm.fooddelivery.viewmodel
 
 import androidx.lifecycle.*
 import pt.ua.cm.fooddelivery.entities.Restaurant

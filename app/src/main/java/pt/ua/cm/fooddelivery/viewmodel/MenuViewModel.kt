@@ -1,4 +1,4 @@
-package pt.ua.cm.fooddelivery.menu
+package pt.ua.cm.fooddelivery.viewmodel
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope

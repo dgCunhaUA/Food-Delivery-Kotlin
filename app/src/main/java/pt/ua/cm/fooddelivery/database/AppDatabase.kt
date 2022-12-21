@@ -5,19 +5,22 @@ import androidx.room.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import pt.ua.cm.fooddelivery.entities.Client
 import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.entities.Order
 import pt.ua.cm.fooddelivery.repository.OrderDao
 import pt.ua.cm.fooddelivery.entities.Restaurant
 import pt.ua.cm.fooddelivery.repository.RestaurantDao
+import pt.ua.cm.fooddelivery.repository.UserDao
 import timber.log.Timber
 
 
-@Database(entities = [Restaurant::class, Menu::class, Order::class], version = 8, exportSchema = false)
+@Database(entities = [Restaurant::class, Menu::class, Order::class, Client::class], version = 9, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun restaurantDao(): RestaurantDao
     abstract fun orderDao(): OrderDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
@@ -44,7 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
                 INSTANCE = instance
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        instance.clearAllTables()
+                        //instance.clearAllTables()
                         populateDatabase(database.restaurantDao(), database.orderDao())
                     }
                 }

@@ -6,6 +6,7 @@ import kotlinx.coroutines.SupervisorJob
 import pt.ua.cm.fooddelivery.database.AppDatabase
 import pt.ua.cm.fooddelivery.repository.OrderRepository
 import pt.ua.cm.fooddelivery.repository.RestaurantRepository
+import pt.ua.cm.fooddelivery.repository.UserRepository
 import timber.log.Timber
 
 class DeliveryApplication: Application() {
@@ -19,6 +20,10 @@ class DeliveryApplication: Application() {
 
     val orderRepository by lazy {
         OrderRepository(database.orderDao())
+    }
+
+    val userRepository by lazy {
+        UserRepository(database.userDao())
     }
 
     override fun onCreate() {

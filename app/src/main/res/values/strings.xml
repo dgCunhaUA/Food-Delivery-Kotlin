@@ -12,4 +12,8 @@
     <string name="emailHint">Email</string>
     <string name="passwordHint">Password</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
 </resources>

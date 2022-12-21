@@ -1,9 +1,13 @@
-package pt.ua.cm.fooddelivery.network.model
+package pt.ua.cm.fooddelivery.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "client")
 data class Client (
     @SerializedName("id")
+    @PrimaryKey
     var id: String,
 
     @SerializedName("name")

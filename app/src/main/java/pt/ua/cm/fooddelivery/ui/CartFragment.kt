@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
+import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.adapter.CartAdapter
 import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.entities.Menu
@@ -88,6 +90,12 @@ class CartFragment : Fragment(), MenuItemClickListener {
                         stopLoading()
                     }
                 }
+            }
+
+            binding.deliveriesStatusBtn.setOnClickListener {
+                Timber.i("Navigating to Deliveries Fragment")
+                view?.findNavController()
+                    ?.navigate(R.id.action_navigation_cart_to_deliveries_fragment)
             }
 
         }

@@ -9,6 +9,8 @@ import timber.log.Timber
 class OrderRepository(private val orderDao: OrderDao) {
 
     val currentCart = MutableLiveData<OrderWithMenus>()
+    //val allUserOrders = MutableLiveData<List<Order>>()
+
 
     fun getCurrentCart()
     {
@@ -31,4 +33,11 @@ class OrderRepository(private val orderDao: OrderDao) {
         orderDao.insert(Order(oldOrderId+1, 0, true))
         currentCart.postValue(orderDao.getCurrentCart())
     }
+
+    /*fun getAllUserOrders(clientId: Int)
+    {
+        allUserOrders.postValue(orderDao.getCurrentCart())
+    }
+
+     */
 }

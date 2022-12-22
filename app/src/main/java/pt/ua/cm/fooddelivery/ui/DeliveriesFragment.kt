@@ -6,26 +6,83 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
+import pt.ua.cm.fooddelivery.adapter.DeliveriesAdapter
+import pt.ua.cm.fooddelivery.adapter.MenuAdapter
 import pt.ua.cm.fooddelivery.databinding.FragmentDeliveriesBinding
+import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.viewmodel.DeliveriesModelFactory
 import pt.ua.cm.fooddelivery.viewmodel.DeliveriesViewModel
+import timber.log.Timber
 
 class DeliveriesFragment : Fragment() {
 
     private lateinit var binding: FragmentDeliveriesBinding
 
     private val deliveriesViewModel: DeliveriesViewModel by viewModels {
-        DeliveriesModelFactory((activity?.application as DeliveryApplication).orderRepository)
+        DeliveriesModelFactory((activity?.application as DeliveryApplication).orderRepository, (activity?.application as DeliveryApplication).userRepository,)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_deliveries, container, false)
+    ): View {
+        binding = FragmentDeliveriesBinding.inflate(layoutInflater)
+
+        setFields()
+
+        return  binding.root
+    }
+
+    private fun setFields() {
+
+        val mainActivity = this.activity
+        if (mainActivity != null) {
+            deliveriesViewModel.ordersResult.observe(viewLifecycleOwner) {
+                Timber.i("FRAGMENT OBSERVER RESULT: $it")
+
+                when (it) {
+                    is BaseResponse.Loading -> {
+                        showLoading()
+                    }
+                    is BaseResponse.Success -> {
+                        stopLoading()
+                        binding.deliveriesRecyclerView.apply {
+                            layoutManager = LinearLayoutManager(activity?.applicationContext)
+                            adapter = it.data?.let { it1 -> DeliveriesAdapter(it1) }
+                        }
+                    }
+                    is BaseResponse.Error -> {
+                        stopLoading()
+                        processError(it.msg)
+                    }
+                    else -> {
+                        stopLoading()
+                    }
+                }
+            }
+            deliveriesViewModel.getAllOrders()
+
+        }
+    }
+
+    private fun showLoading() {
+        binding.prgbar.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        binding.prgbar.visibility = View.GONE
+    }
+
+    private fun processError(msg: String?) {
+        showToast("Error: $msg")
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
     }
 
 }

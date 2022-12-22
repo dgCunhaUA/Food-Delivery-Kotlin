@@ -32,7 +32,11 @@
         android:id="@+id/navigation_cart"
         android:name="pt.ua.cm.fooddelivery.ui.CartFragment"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_navigation_cart_to_deliveries_fragment"
+            app:destination="@id/deliveries_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -48,6 +52,11 @@
             android:id="@+id/action_navigation_login_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+    <fragment
+        android:id="@+id/deliveries_fragment"
+        android:name="pt.ua.cm.fooddelivery.ui.DeliveriesFragment"
+        android:label="Deliveries List"
+        tools:layout="@layout/fragment_deliveries"/>
 </navigation>
 <!--
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"

@@ -18,4 +18,5 @@
     <string name="address">Address</string>
     <string name="finish_order">Finish Order</string>
     <string name="deliveries_status">Deliveries Status</string>
+    <string name="show_map">Show Map</string>
 </resources>

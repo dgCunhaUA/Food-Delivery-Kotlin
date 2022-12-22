@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import pt.ua.cm.fooddelivery.DeliveryApplication
 import pt.ua.cm.fooddelivery.R
-import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.databinding.FragmentDeliveriesBinding
 import pt.ua.cm.fooddelivery.viewmodel.DeliveriesModelFactory
 import pt.ua.cm.fooddelivery.viewmodel.DeliveriesViewModel

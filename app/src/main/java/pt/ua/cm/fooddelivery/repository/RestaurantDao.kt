@@ -12,6 +12,9 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurant")
     fun getAll(): Flow<List<Restaurant>>
 
+    @Query("SELECT * FROM restaurant WHERE restaurantId = :restaurantId")
+    fun getRestaurantById(restaurantId: Int): Restaurant
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(restaurant: Restaurant)
 

@@ -4,10 +4,11 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import pt.ua.cm.fooddelivery.entities.Client
 import pt.ua.cm.fooddelivery.network.request.LoginRequest
+import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
+import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -48,6 +49,8 @@ interface ApiService {
     //fun uploadProfilePicture(@Body profilePictureRequest: ProfilePictureRequest): Call<Response<Any>>
     //fun uploadProfilePicture(@Body profilePictureRequest: RequestBody): Call<Response<Any>>
 
+    @POST("/api/order/create")
+    fun createOrder(@Body orderFinishRequest: OrderFinishRequest): Call<OrderFinishResponse>
 }
 
 object Api {

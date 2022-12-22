@@ -70,7 +70,6 @@ class Login : Fragment() {
                 navigateToHome()
             }
         }
-
     }
 
     private fun navigateToHome() {
@@ -98,18 +97,18 @@ class Login : Fragment() {
         binding.prgbar.visibility = View.GONE
     }
 
-    private fun processLogin(client: Client?) {
-        Timber.i("Process Login for $client")
-        showToast("Login Success")
-        //navigateToHome()
-    }
-
     private fun processError(msg: String?) {
         showToast("Error: $msg")
     }
 
     private fun showToast(msg: String) {
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun processLogin(client: Client?) {
+        Timber.i("Process Login for $client")
+        showToast("Login Success")
+        //navigateToHome()
     }
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,8 @@ import pt.ua.cm.fooddelivery.adapter.CartAdapter
 import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.entities.Menu
 import pt.ua.cm.fooddelivery.adapter.MenuItemClickListener
+import pt.ua.cm.fooddelivery.entities.OrderWithMenus
+import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.viewmodel.CartModelFactory
 import pt.ua.cm.fooddelivery.viewmodel.CartViewModel
 import timber.log.Timber
@@ -21,8 +24,10 @@ class CartFragment : Fragment(), MenuItemClickListener {
 
     private lateinit var binding: FragmentCartBinding
 
-    private val orderViewModel: CartViewModel by viewModels {
-        CartModelFactory((activity?.application as DeliveryApplication).orderRepository)
+    private val cartViewModel: CartViewModel by viewModels {
+        CartModelFactory((activity?.application as DeliveryApplication).orderRepository,
+            (activity?.application as DeliveryApplication).userRepository,
+            (activity?.application as DeliveryApplication).restaurantRepository)
     }
 
     override fun onCreateView(
@@ -36,6 +41,10 @@ class CartFragment : Fragment(), MenuItemClickListener {
         setFields()
         observeFeedback()
 
+        binding.finishOrderBtn.setOnClickListener {
+            cartViewModel.finishOrder()
+        }
+
         return binding.root
     }
 
@@ -43,37 +52,82 @@ class CartFragment : Fragment(), MenuItemClickListener {
     {
         val mainActivity = this.activity
         if (mainActivity != null) {
-            orderViewModel.currentCart.observe(viewLifecycleOwner) {
-                Timber.i("Cart Observer!")
+            cartViewModel.currentCart.observe(viewLifecycleOwner) {
+                Timber.i("Cart Observer! $it")
                 binding.cartRecyclerView.apply {
                     if(it != null) {
                         layoutManager = LinearLayoutManager(activity?.applicationContext)
                         adapter = CartAdapter(it, this@CartFragment)
                     }
                 }
+
+                if(it != null) {
+                    if(it.menus.isNotEmpty()) {
+                        binding.finishOrderBtn.visibility = View.VISIBLE
+                    } else {
+                        binding.finishOrderBtn.visibility = View.GONE
+                    }
+                }
             }
-            orderViewModel.getCurrentCart()
+            cartViewModel.getCurrentCart()
+
+            cartViewModel.cartResult.observe(viewLifecycleOwner) {
+                Timber.i("Cart results observer: $it")
+                when (it) {
+                    is BaseResponse.Loading -> {
+                        showLoading()
+                    }
+                    is BaseResponse.Success -> {
+                        stopLoading()
+                    }
+                    is BaseResponse.Error -> {
+                        stopLoading()
+                        processError(it.msg)
+                    }
+                    else -> {
+                        stopLoading()
+                    }
+                }
+            }
+
         }
     }
 
     private fun observeFeedback() {
-        orderViewModel.feedbackMessage.observe(viewLifecycleOwner) {
+        cartViewModel.feedbackMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 //val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 //toast.show()
             }
             //orderViewModel.feedbackMessage.postValue(null)
         }
-        orderViewModel.getCurrentCart()
+        cartViewModel.getCurrentCart()
     }
 
     override fun addMenuToCart(menu: Menu) {
-        orderViewModel.addMenuToCart(menu)
+        cartViewModel.addMenuToCart(menu)
         //orderViewModel.getCurrentCart()
     }
 
     override fun rmMenuFromCart(menu: Menu) {
-        orderViewModel.rmMenuFromCart(menu)
+        cartViewModel.rmMenuFromCart(menu)
         //orderViewModel.getCurrentCart()
+    }
+
+
+    private fun showLoading() {
+        binding.prgbar.visibility = View.VISIBLE
+    }
+
+    private fun stopLoading() {
+        binding.prgbar.visibility = View.GONE
+    }
+
+    private fun processError(msg: String?) {
+        showToast("Error: $msg")
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
     }
 }

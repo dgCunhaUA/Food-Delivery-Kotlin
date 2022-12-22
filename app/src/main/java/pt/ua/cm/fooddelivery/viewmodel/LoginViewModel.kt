@@ -40,7 +40,7 @@ class LoginViewModel(application: Application, private val userRepository: UserR
      */
 
     fun loginClient(email: String, pwd: String) {
-        loginResult.value = BaseResponse.Loading()
+        loginResult.postValue(BaseResponse.Loading())
         viewModelScope.launch {
 
             try {

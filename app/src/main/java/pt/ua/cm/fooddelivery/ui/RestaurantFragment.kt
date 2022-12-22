@@ -31,7 +31,9 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
     }
 
     private val cartViewModel: CartViewModel by viewModels {
-        CartModelFactory((activity?.application as DeliveryApplication).orderRepository)
+        CartModelFactory((activity?.application as DeliveryApplication).orderRepository,
+            (activity?.application as DeliveryApplication).userRepository,
+            (activity?.application as DeliveryApplication).restaurantRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

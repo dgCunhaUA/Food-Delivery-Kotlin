@@ -16,6 +16,9 @@ interface UserDao {
     @Query("SELECT * from client")
     fun getClient(): Flow<Client?>
 
+    @Query("SELECT * from client")
+    fun getCurrentClient(): Client
+
     @Query("DELETE FROM client")
     suspend fun deleteAll()
 }

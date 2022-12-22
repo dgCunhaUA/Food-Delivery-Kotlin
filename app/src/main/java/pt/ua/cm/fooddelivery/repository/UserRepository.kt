@@ -2,10 +2,6 @@ package pt.ua.cm.fooddelivery.repository
 
 import kotlinx.coroutines.flow.Flow
 import pt.ua.cm.fooddelivery.entities.Client
-import pt.ua.cm.fooddelivery.entities.Restaurant
-import pt.ua.cm.fooddelivery.network.Api
-import pt.ua.cm.fooddelivery.network.request.LoginRequest
-import retrofit2.Response
 
 class UserRepository(private val userDao: UserDao) {
 
@@ -17,5 +13,9 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun deleteAll() {
         userDao.deleteAll()
+    }
+
+    suspend fun getCurrentClient(): Client {
+        return userDao.getCurrentClient()
     }
 }

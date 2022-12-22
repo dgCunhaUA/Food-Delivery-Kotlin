@@ -21,8 +21,8 @@ interface OrderDao {
     fun getCurrentCart(): OrderWithMenus
 
     @Query("DELETE FROM `order`")
-    suspend fun deleteAll()
-
-    @Query("DELETE FROM `order`")
     suspend fun deleteMenusFromCart()
+
+    @Query("UPDATE `order` SET active=0 WHERE active=1")
+    fun makeOrderInactive()
 }

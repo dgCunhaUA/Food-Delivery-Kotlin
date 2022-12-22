@@ -56,7 +56,15 @@
         android:id="@+id/deliveries_fragment"
         android:name="pt.ua.cm.fooddelivery.ui.DeliveriesFragment"
         android:label="Deliveries List"
-        tools:layout="@layout/fragment_deliveries"/>
+        tools:layout="@layout/fragment_deliveries">
+        <action
+            android:id="@+id/action_deliveries_fragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="pt.ua.cm.fooddelivery.ui.MapFragment"
+        android:label="MapsFragment" />
 </navigation>
 <!--
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"

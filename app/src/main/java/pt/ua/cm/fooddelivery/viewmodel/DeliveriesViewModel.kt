@@ -33,7 +33,6 @@ class DeliveriesViewModel(private val orderRepository: OrderRepository,
         ordersResult.postValue(BaseResponse.Loading())
 
         try {
-
             CoroutineScope(Dispatchers.IO).launch {
                 val currentClient: Client = userRepository.getCurrentClient()
 
@@ -53,7 +52,6 @@ class DeliveriesViewModel(private val orderRepository: OrderRepository,
                     }
                 })
             }
-
         } catch (ex: Exception) {
             //loginResult.value = BaseResponse.Error(ex.message)
             Timber.i("Error ${ex.message}")

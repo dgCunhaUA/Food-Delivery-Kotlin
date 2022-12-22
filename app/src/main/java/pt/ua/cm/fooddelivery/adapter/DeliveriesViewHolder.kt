@@ -1,7 +1,9 @@
 package pt.ua.cm.fooddelivery.adapter
 
 import android.content.Context
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.DeliveryItemBinding
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import timber.log.Timber
@@ -15,12 +17,12 @@ class DeliveriesViewHolder(
 
     fun bindDeliveryItem(order: DeliveriesResponse)
     {
-
         binding.deliveryName.text = order.order_status
 
         binding.showMapBtn.setOnClickListener {
             Timber.i("Navigate to map of: $order")
-            //clickListener.addMenuToCart(menu)
+
+            Navigation.findNavController(itemView).navigate(R.id.action_deliveries_fragment_to_mapsFragment)
         }
     }
 }

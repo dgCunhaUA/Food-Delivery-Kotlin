@@ -1,6 +1,8 @@
 package pt.ua.cm.fooddelivery.adapter
 
 import android.content.Context
+import android.opengl.Visibility
+import android.view.View
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -22,17 +24,22 @@ class DeliveriesViewHolder(
     {
         binding.deliveryName.text = order.order_status
 
-        binding.showMapBtn.setOnClickListener {
-            Timber.i("Navigate to map of: $order")
+        if(order.order_status == "Delivering") {
+            binding.showMapBtn.visibility = View.VISIBLE
+            binding.showMapBtn.setOnClickListener {
+                Timber.i("Navigate to map of: $order")
 
-            var riderLocation: LatLng? = null
-            if(order.rider_lat != null && order.rider_lng != null) {
-                riderLocation = LatLng(order.rider_lat!!, order.rider_lng!!)
+                var riderLocation: LatLng? = null
+                if (order.rider_lat != null && order.rider_lng != null) {
+                    riderLocation = LatLng(order.rider_lat!!, order.rider_lng!!)
+                }
+
+                val bundle = bundleOf("riderLocation" to riderLocation)
+                it.findNavController()
+                    .navigate(R.id.action_deliveries_fragment_to_mapsFragment, bundle)
             }
-
-            val bundle = bundleOf("riderLocation" to riderLocation)
-            it.findNavController()
-                .navigate(R.id.action_deliveries_fragment_to_mapsFragment, bundle)
+        } else {
+            binding.showMapBtn.visibility = View.GONE
         }
     }
 }

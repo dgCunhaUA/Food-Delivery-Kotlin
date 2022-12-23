@@ -216,10 +216,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 val directionsRequest = object : StringRequest(Request.Method.GET, url, Response.Listener<String> {
                         response ->
 
-                    Timber.i("reponse: $response")
                     val jsonResponse = JSONObject(response)
-
-                    Timber.i("json resposne $jsonResponse")
 
                     // Get routes
                     val routes = jsonResponse.getJSONArray("routes")

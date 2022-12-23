@@ -64,7 +64,12 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="pt.ua.cm.fooddelivery.ui.MapFragment"
-        android:label="MapsFragment" />
+        android:label="MapsFragment" >
+        <argument
+            android:name="riderLocation"
+            app:argType="com.google.android.gms.maps.model.LatLng"
+            app:nullable="true" />
+    </fragment>
 </navigation>
 <!--
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"

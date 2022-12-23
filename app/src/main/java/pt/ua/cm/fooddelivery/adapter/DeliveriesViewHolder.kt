@@ -1,8 +1,11 @@
 package pt.ua.cm.fooddelivery.adapter
 
 import android.content.Context
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.maps.model.LatLng
 import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.DeliveryItemBinding
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
@@ -22,7 +25,14 @@ class DeliveriesViewHolder(
         binding.showMapBtn.setOnClickListener {
             Timber.i("Navigate to map of: $order")
 
-            Navigation.findNavController(itemView).navigate(R.id.action_deliveries_fragment_to_mapsFragment)
+            var riderLocation: LatLng? = null
+            if(order.rider_lat != null && order.rider_lng != null) {
+                riderLocation = LatLng(order.rider_lat!!, order.rider_lng!!)
+            }
+
+            val bundle = bundleOf("riderLocation" to riderLocation)
+            it.findNavController()
+                .navigate(R.id.action_deliveries_fragment_to_mapsFragment, bundle)
         }
     }
 }

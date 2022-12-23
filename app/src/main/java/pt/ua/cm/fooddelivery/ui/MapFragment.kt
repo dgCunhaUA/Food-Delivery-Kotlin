@@ -3,14 +3,17 @@ package pt.ua.cm.fooddelivery.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.provider.SettingsSlicesContract.KEY_LOCATION
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,30 +22,45 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
+import org.json.JSONObject
+import pt.ua.cm.fooddelivery.BuildConfig.MAPS_API_KEY
 import pt.ua.cm.fooddelivery.MainActivity
 import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.FragmentMapBinding
+import pt.ua.cm.fooddelivery.network.Api
 import timber.log.Timber
+
+
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
+    private val args: MapFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentMapBinding
-    //private lateinit var currentLocation: Location
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    private val REQUEST_LOCATION_PERMISSION = 1
     private var locationPermissionGranted = false
     private var lastKnownLocation: Location? = null
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
     private var cameraPosition: CameraPosition? = null
     private var map: GoogleMap? = null
 
-
+    private var lastRiderLocation: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.i("onCreate with args: $args")
+
+        lastRiderLocation = args.riderLocation
 
         fusedLocationProviderClient =  LocationServices.getFusedLocationProviderClient(activity as MainActivity)
 
@@ -85,6 +103,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
+
+        setRiderMarker()
+
+        //getDirections()
     }
 
 
@@ -135,7 +157,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         try {
             if (locationPermissionGranted) {
                 val locationResult = fusedLocationProviderClient.lastLocation
-                Timber.i("LOCATION RESULT: $lastKnownLocation")
                 locationResult.addOnCompleteListener(activity as MainActivity) { task ->
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
@@ -146,6 +167,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 LatLng(lastKnownLocation!!.latitude,
                                     lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
                         }
+
+                        getDirections()
                     } else {
                         Timber.i("Current location is null. Using defaults.")
                         Timber.i("Exception: ${task.exception}")
@@ -159,6 +182,110 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Timber.i("Exception: ${e.message}")
         }
     }
+
+    private fun setRiderMarker() {
+        if(lastRiderLocation != null) {
+            map?.addMarker(MarkerOptions().position(lastRiderLocation!!))
+        }
+    }
+
+    private fun getDirections() {
+
+        Timber.i("Getting directions")
+
+        if (lastRiderLocation != null && lastKnownLocation != null) {
+
+            val lastKnownLocationString =
+                lastKnownLocation!!.latitude.toString() + "," + lastKnownLocation!!.longitude.toString()
+            val lastRiderLocationString =
+                lastRiderLocation!!.latitude.toString() + "," + lastRiderLocation!!.longitude.toString()
+
+
+            Timber.i("origin: $lastKnownLocationString")
+            Timber.i("dest: $lastRiderLocationString")
+            Timber.i("leu $MAPS_API_KEY")
+
+
+            val url: String = "https://maps.googleapis.com/maps/api/directions/json?origin=$lastKnownLocationString" +
+                    "&destination=$lastRiderLocationString&key=$MAPS_API_KEY&sensor=false&mode=driving"
+
+            try {
+
+                val path: MutableList<List<LatLng>> = ArrayList()
+                //val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key=<YOUR_API_KEY>"
+                val directionsRequest = object : StringRequest(Request.Method.GET, url, Response.Listener<String> {
+                        response ->
+
+                    Timber.i("reponse: $response")
+                    val jsonResponse = JSONObject(response)
+
+                    Timber.i("json resposne $jsonResponse")
+
+                    // Get routes
+                    val routes = jsonResponse.getJSONArray("routes")
+                    val legs = routes.getJSONObject(0).getJSONArray("legs")
+                    val steps = legs.getJSONObject(0).getJSONArray("steps")
+                    for (i in 0 until steps.length()) {
+                        val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
+                        path.add(PolyUtil.decode(points))
+                    }
+                    for (i in 0 until path.size) {
+                        this.map!!.addPolyline(PolylineOptions().addAll(path[i]).color(Color.BLACK))
+                    }
+                }, Response.ErrorListener {
+                        _ ->
+                }){}
+                val requestQueue = Volley.newRequestQueue(activity as MainActivity)
+                requestQueue.add(directionsRequest)
+
+                /*Api.apiService.getDirections(url).enqueue(object :
+                    Callback<Any> {
+                    override fun onFailure(call: Call<Any>, t: Throwable) {
+                        //handle error here
+                        Timber.i("error $t")
+                    }
+
+                    override fun onResponse(
+                        call: Call<Any>,
+                        response: Response<Any>
+                    ) {
+                        Timber.i(response.toString())
+                        Timber.i(response.body().toString())
+
+                        Timber.i(response.body().toString())
+                        //drawPolylines(response)
+
+                        val jsonResponse = JSONObject(response.body().toString())
+
+                        Timber.i("json resposne $jsonResponse")
+
+                        // Get routes
+                        val routes = jsonResponse.getJSONArray("routes")
+                        val legs = routes.getJSONObject(0).getJSONArray("legs")
+                        val steps = legs.getJSONObject(0).getJSONArray("steps")
+
+
+                        Timber.i(routes.toString())
+
+                        Timber.i(routes.getJSONObject(0).getJSONArray("legs").toString())
+
+
+
+                    }
+                })
+
+                 */
+
+
+            } catch (ex: Exception) {
+                Timber.i(ex)
+            }
+
+        } else {
+            Timber.i("FFFFFFFF")
+        }
+    }
+
 
     companion object {
         //private val TAG = MapsActivityCurrentPlace::class.java.simpleName

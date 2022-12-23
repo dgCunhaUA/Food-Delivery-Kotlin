@@ -1,39 +1,31 @@
-package pt.ua.cm.fooddelivery.ui
+package pt.ua.cm.fooddelivery
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
-import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.client.entities.Client
-import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.client.viewmodel.LoginViewModel
 import pt.ua.cm.fooddelivery.client.viewmodel.UserModelFactory
-import pt.ua.cm.fooddelivery.databinding.FragmentLoginBinding
+import pt.ua.cm.fooddelivery.databinding.ActivityLoginBinding
+import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import timber.log.Timber
 
-class LoginFragment : Fragment() {
+class LoginActivity : AppCompatActivity() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private lateinit var binding: ActivityLoginBinding
 
     private val loginViewModel: LoginViewModel by viewModels {
-        UserModelFactory(activity?.application as DeliveryApplication, (activity?.application as DeliveryApplication).userRepository)
+        UserModelFactory(application as DeliveryApplication, (application as DeliveryApplication).userRepository)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        Timber.i("onCreateView")
-        binding = FragmentLoginBinding.inflate(layoutInflater)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+         binding = ActivityLoginBinding.inflate(layoutInflater)
+         setContentView(binding.root)
 
         loginViewModel.loginResult.observe(this) {
             Timber.i("Login results observer: $it")
@@ -60,14 +52,12 @@ class LoginFragment : Fragment() {
         }
 
         loginViewModel.autoLogin()
-
-        return binding.root
     }
 
-
-    private fun navigateToHome() {
-        view?.findNavController()
-            ?.navigate(R.id.action_navigation_login_to_navigation_home)
+    private fun startUserActivity() {
+        Timber.i("Starting new Activity")
+        val intent = Intent(this, ClientActivity::class.java)
+        startActivity(intent)
     }
 
 
@@ -95,13 +85,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun showToast(msg: String) {
-        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun processLogin(client: Client?) {
         Timber.i("Process Login for $client")
         showToast("Login Success")
-        navigateToHome()
+        startUserActivity()
     }
 
 }

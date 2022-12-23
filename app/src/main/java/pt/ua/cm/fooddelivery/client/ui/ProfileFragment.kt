@@ -13,12 +13,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.WorkerThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
+import pt.ua.cm.fooddelivery.LoginActivity
 import pt.ua.cm.fooddelivery.client.entities.Client
 import pt.ua.cm.fooddelivery.network.Api
 import pt.ua.cm.fooddelivery.client.viewmodel.ProfileModelFactory
@@ -129,13 +128,9 @@ class ProfileFragment : Fragment() {
 
     private fun logout() {
         Timber.i("Logging out")
-        try {
-            profileViewModel.logout()
+        profileViewModel.logout()
 
-            view?.findNavController()
-                ?.navigate(R.id.action_navigation_profile_to_navigation_login)
-        } catch (ex: Exception) {
-            Timber.i("ERROR LOGOUT $ex")
-        }
+        val intent = Intent(activity, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

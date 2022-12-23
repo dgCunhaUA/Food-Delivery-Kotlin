@@ -1,40 +1,7 @@
 package pt.ua.cm.fooddelivery.client.ui
 
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Location
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.maps.android.PolyUtil
-import org.json.JSONObject
-import pt.ua.cm.fooddelivery.BuildConfig.MAPS_API_KEY
-import pt.ua.cm.fooddelivery.MainActivity
-import pt.ua.cm.fooddelivery.R
-import pt.ua.cm.fooddelivery.databinding.FragmentMapBinding
-import timber.log.Timber
 
 
 class MapFragment : Fragment() {//, OnMapReadyCallback {

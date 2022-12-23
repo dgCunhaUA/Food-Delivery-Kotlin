@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_login">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -23,9 +23,6 @@
         <argument
             android:name="id"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_restaurant_fragment_to_navigation_login"
-            app:destination="@id/navigation_login" />
     </fragment>
 
     <fragment
@@ -43,18 +40,6 @@
         android:name="pt.ua.cm.fooddelivery.client.ui.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_navigation_profile_to_navigation_login"
-            app:destination="@id/navigation_login" />
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_login"
-        android:name="pt.ua.cm.fooddelivery.ui.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_navigation_login_to_navigation_home"
-            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/deliveries_fragment"

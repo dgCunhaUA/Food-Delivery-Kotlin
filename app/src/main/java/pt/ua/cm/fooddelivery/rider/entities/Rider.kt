@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "rider")
 data class Rider (
 
-    @SerializedName("id"        )@PrimaryKey var id        : Int?    = null,
-    @SerializedName("name"      ) var name      : String? = null,
+    @SerializedName("id"        )@PrimaryKey var id        : Int,
+    @SerializedName("name"      ) var name      : String,
     @SerializedName("address"   ) var address   : String? = null,
     @SerializedName("email"     ) var email     : String? = null,
     @SerializedName("password"  ) var password  : String? = null,

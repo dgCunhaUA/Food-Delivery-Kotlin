@@ -5,16 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pt.ua.cm.fooddelivery.client.entities.Client
-import pt.ua.cm.fooddelivery.client.entities.Order
-import pt.ua.cm.fooddelivery.client.entities.Restaurant
-import pt.ua.cm.fooddelivery.client.repository.RestaurantRepository
-import pt.ua.cm.fooddelivery.client.viewmodel.RestaurantViewModel
 import pt.ua.cm.fooddelivery.network.Api
+import pt.ua.cm.fooddelivery.network.request.AcceptOrderRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
 import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
-import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
-import pt.ua.cm.fooddelivery.network.response.RiderOrderResponse
 import pt.ua.cm.fooddelivery.rider.entities.Rider
 import pt.ua.cm.fooddelivery.rider.repository.RiderRepository
 import retrofit2.Call
@@ -29,6 +24,7 @@ class RiderHomeViewModel(private val repository: RiderRepository): ViewModel() {
 
     val orderResult: MutableLiveData<BaseResponse<List<DeliveriesResponse>>> = MutableLiveData()
 
+    val orderAcceptedResult: MutableLiveData<BaseResponse<DeliveriesResponse>> = MutableLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
@@ -38,7 +34,6 @@ class RiderHomeViewModel(private val repository: RiderRepository): ViewModel() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val currentRider: Rider = repository.getCurrentRider()
-
 
             Timber.i("Current Rider $currentRider")
 
@@ -64,7 +59,40 @@ class RiderHomeViewModel(private val repository: RiderRepository): ViewModel() {
             }
         }
     }
-}
+
+    fun acceptOrder(order: DeliveriesResponse) = CoroutineScope(Dispatchers.IO).launch {
+        orderAcceptedResult.postValue(BaseResponse.Loading())
+
+        val currentRider: Rider = repository.getCurrentRider()
+
+        val acceptOrderRequest = AcceptOrderRequest(
+            order_id = order.id,
+            rider_name = currentRider.name,
+            rider_lat = 0.1,
+            rider_lng = 0.1,
+            order_status = "Delivering"
+        )
+
+        Api.apiService.acceptOrder(acceptOrderRequest).enqueue(object :
+            Callback<DeliveriesResponse> {
+            override fun onFailure(call: Call<DeliveriesResponse>, t: Throwable) {
+                //handle error here
+                Timber.i("error $t")
+                orderAcceptedResult.postValue(BaseResponse.Error(t.toString()))
+            }
+
+            override fun onResponse(
+                call: Call<DeliveriesResponse>,
+                response: Response<DeliveriesResponse>
+            ) {
+                val order: DeliveriesResponse =
+                    response.body() as DeliveriesResponse
+
+                orderAcceptedResult.postValue(BaseResponse.Success(order))
+            }
+        })}
+
+    }
 
 class RiderHomeModelFactory(private val repository: RiderRepository) : ViewModelProvider.Factory
 {

@@ -6,11 +6,11 @@ import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import pt.ua.cm.fooddelivery.client.entities.Client
+import pt.ua.cm.fooddelivery.network.request.AcceptOrderRequest
 import pt.ua.cm.fooddelivery.network.request.LoginRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
-import pt.ua.cm.fooddelivery.network.response.RiderOrderResponse
 import pt.ua.cm.fooddelivery.rider.entities.Rider
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -67,6 +67,8 @@ interface ApiService {
     @GET("/api/order/rider/{riderId}")
     fun getRiderOrdersById(@Path("riderId") riderId: Int) : Call<List<DeliveriesResponse>>
 
+    @PUT("/api/order/accept")
+    fun acceptOrder(@Body acceptOrderRequest: AcceptOrderRequest) : Call<DeliveriesResponse>
 }
 
 object Api {

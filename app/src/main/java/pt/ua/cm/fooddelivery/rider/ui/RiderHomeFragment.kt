@@ -9,21 +9,16 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
-import pt.ua.cm.fooddelivery.R
-import pt.ua.cm.fooddelivery.client.entities.Order
-import pt.ua.cm.fooddelivery.client.viewmodel.CartModelFactory
-import pt.ua.cm.fooddelivery.client.viewmodel.CartViewModel
-import pt.ua.cm.fooddelivery.databinding.FragmentCartBinding
 import pt.ua.cm.fooddelivery.databinding.FragmentRiderHomeBinding
 import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
-import pt.ua.cm.fooddelivery.network.response.RiderOrderResponse
 import pt.ua.cm.fooddelivery.rider.adapter.OrderAdapter
+import pt.ua.cm.fooddelivery.rider.adapter.OrderItemClickListener
 import pt.ua.cm.fooddelivery.rider.viewmodel.RiderHomeModelFactory
 import pt.ua.cm.fooddelivery.rider.viewmodel.RiderHomeViewModel
 import timber.log.Timber
 
-class RiderHomeFragment : Fragment() {
+class RiderHomeFragment : Fragment(), OrderItemClickListener {
 
     private lateinit var binding: FragmentRiderHomeBinding
 
@@ -71,6 +66,33 @@ class RiderHomeFragment : Fragment() {
                 }
             }
         }
+        homeViewModel.orderAcceptedResult.observe(viewLifecycleOwner) {
+            Timber.i("Cart results observer: $it")
+            when (it) {
+                is BaseResponse.Loading -> {
+                    showLoading()
+                }
+                is BaseResponse.Success -> {
+                    stopLoading()
+                    Timber.i("success: ${it.data}")
+
+                    val list: List<DeliveriesResponse> = if(it.data != null)
+                        listOf(it.data)
+                    else
+                        listOf()
+
+                    Timber.i(list.toString())
+                    setRecyclerView(list)
+                }
+                is BaseResponse.Error -> {
+                    stopLoading()
+                    processError(it.msg)
+                }
+                else -> {
+                    stopLoading()
+                }
+            }
+        }
         homeViewModel.getOrders()
     }
 
@@ -79,9 +101,17 @@ class RiderHomeFragment : Fragment() {
             if(orders != null) {
                 layoutManager = LinearLayoutManager(activity?.applicationContext)
                 adapter =
-                    OrderAdapter(orders)
+                    OrderAdapter(orders, this@RiderHomeFragment)
             }
         }
+    }
+
+    override fun acceptOrder(order: DeliveriesResponse) {
+        homeViewModel.acceptOrder(order)
+    }
+
+    override fun showOrderMap(order: DeliveriesResponse) {
+        TODO("Not yet implemented")
     }
 
     private fun showLoading() {

@@ -7,6 +7,7 @@ import pt.ua.cm.fooddelivery.client.repository.OrderRepository
 import pt.ua.cm.fooddelivery.client.repository.RestaurantRepository
 import pt.ua.cm.fooddelivery.client.repository.UserRepository
 import pt.ua.cm.fooddelivery.database.AppDatabase
+import pt.ua.cm.fooddelivery.rider.repository.RiderRepository
 import timber.log.Timber
 
 class DeliveryApplication: Application() {
@@ -24,6 +25,10 @@ class DeliveryApplication: Application() {
 
     val userRepository by lazy {
         UserRepository(database.userDao())
+    }
+
+    val riderRepository by lazy {
+        RiderRepository(database.riderDao())
     }
 
     override fun onCreate() {

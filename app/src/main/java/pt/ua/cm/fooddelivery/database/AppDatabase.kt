@@ -14,14 +14,17 @@ import pt.ua.cm.fooddelivery.client.entities.Restaurant
 import pt.ua.cm.fooddelivery.client.repository.OrderDao
 import pt.ua.cm.fooddelivery.client.repository.RestaurantDao
 import pt.ua.cm.fooddelivery.client.repository.UserDao
+import pt.ua.cm.fooddelivery.rider.entities.Rider
+import pt.ua.cm.fooddelivery.rider.repository.RiderDao
 import timber.log.Timber
 
-@Database(entities = [Restaurant::class, Menu::class, Order::class, Client::class], version = 9, exportSchema = false)
+@Database(entities = [Restaurant::class, Menu::class, Order::class, Client::class, Rider::class], version = 11, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun restaurantDao(): RestaurantDao
     abstract fun orderDao(): OrderDao
     abstract fun userDao(): UserDao
+    abstract fun riderDao(): RiderDao
 
     companion object {
         @Volatile

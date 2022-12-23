@@ -10,6 +10,7 @@ import pt.ua.cm.fooddelivery.network.request.LoginRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
+import pt.ua.cm.fooddelivery.rider.entities.Rider
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -42,6 +43,9 @@ interface ApiService {
 
     @POST("/api/client/login")
     fun loginClient(@Body loginRequest: LoginRequest): Call<Client>
+
+    @POST("/api/rider/login")
+    fun loginRider(@Body loginRequest: LoginRequest): Call<Rider>
 
     @Multipart
     @POST("/api/client/upload/1")

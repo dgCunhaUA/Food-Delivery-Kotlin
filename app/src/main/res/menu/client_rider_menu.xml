@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/client_item"
+        android:title="@string/client"/>
+
+    <item
+        android:id="@+id/rider_item"
+        android:title="@string/rider"/>
+
+</menu>
+

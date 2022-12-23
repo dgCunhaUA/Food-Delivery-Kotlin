@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClientActivity">
+    tools:context=".RiderActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/rider_nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -18,10 +18,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_gravity="bottom"
-        app:menu="@menu/bottom_client_nav_menu" />
+        app:menu="@menu/bottom_rider_nav_menu" />
 
     <fragment
-        android:id="@+id/myNavHostFragment"
+        android:id="@+id/myNavRiderHostFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="675dp"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/client_navigation"
+        app:navGraph="@navigation/rider_navigation"
         tools:ignore="FragmentTagUsage" />
 
 </FrameLayout>

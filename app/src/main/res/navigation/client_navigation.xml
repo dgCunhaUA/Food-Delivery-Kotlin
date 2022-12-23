@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/client_navigation"
     app:startDestination="@+id/navigation_home">
 
     <fragment
@@ -53,47 +53,11 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="pt.ua.cm.fooddelivery.client.ui.MapFragment"
-        android:label="MapsFragment" >
+        android:label="MapsFragment"
+        tools:layout="@layout/fragment_map">
         <argument
             android:name="riderLocation"
             app:argType="com.google.android.gms.maps.model.LatLng"
             app:nullable="true" />
     </fragment>
 </navigation>
-<!--
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
-
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="pt.ua.cm.fooddelivery.ui.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_restaurantFragment"
-            app:destination="@id/restaurantFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/restaurantFragment"
-        android:name="pt.ua.cm.fooddelivery.ui.RestaurantFragment"
-        android:label="fragment_restaurant"
-        tools:layout="@layout/fragment_restaurant" >
-        <argument
-            android:name="id"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/cartFragment"
-        android:name="pt.ua.cm.fooddelivery.ui.CartFragment"
-        android:label="CartFragment" />
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="pt.ua.cm.fooddelivery.ui.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
-
-</navigation>
--->

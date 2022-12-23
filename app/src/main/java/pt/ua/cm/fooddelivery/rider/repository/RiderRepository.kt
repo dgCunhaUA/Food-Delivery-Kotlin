@@ -16,4 +16,9 @@ class RiderRepository(private val riderDao: RiderDao) {
     fun getAutoLoginRider(): Rider? {
         return riderDao.getAutoLoginRider()
     }
+
+    fun getCurrentRider(): Rider {
+        return riderDao.getCurrentRider()
+    }
+
 }

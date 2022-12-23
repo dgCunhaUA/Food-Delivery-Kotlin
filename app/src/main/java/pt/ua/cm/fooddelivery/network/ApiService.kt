@@ -10,6 +10,7 @@ import pt.ua.cm.fooddelivery.network.request.LoginRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
+import pt.ua.cm.fooddelivery.network.response.RiderOrderResponse
 import pt.ua.cm.fooddelivery.rider.entities.Rider
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -62,6 +63,10 @@ interface ApiService {
 
     @GET
     fun getDirections(@Url url: String): Call<Any>
+
+    @GET("/api/order/rider/{riderId}")
+    fun getRiderOrdersById(@Path("riderId") riderId: Int) : Call<List<DeliveriesResponse>>
+
 }
 
 object Api {

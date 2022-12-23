@@ -42,6 +42,6 @@ data class DeliveriesResponse(
         "createdAt": "2022-11-07T17:51:41.000Z",
         "updatedAt": "2022-11-07T20:00:36.000Z"
     },
-
+]
 
  */

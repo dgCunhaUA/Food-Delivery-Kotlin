@@ -94,7 +94,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
     private fun doLogin() {
         Timber.i("Logging in")
         val email = binding.txtInputEmail.text.toString()

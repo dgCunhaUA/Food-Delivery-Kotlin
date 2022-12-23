@@ -19,19 +19,19 @@ class RiderActivity : AppCompatActivity() {
         binding = ActivityRiderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.riderNavView
+        val navView: BottomNavigationView = binding.navView
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.myNavRiderHostFragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.myNavHostFragment2) as NavHostFragment
         val navController: NavController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_profile))
+            R.id.rider_navigation_home, R.id.rider_navigation_profile))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.myNavRiderHostFragment)
+        val navController = this.findNavController(R.id.myNavHostFragment2)
         return navController.navigateUp()
     }
 }

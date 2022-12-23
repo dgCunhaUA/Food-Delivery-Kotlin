@@ -19,4 +19,7 @@ interface RiderDao {
 
     @Query("SELECT * from rider")
     fun getAutoLoginRider(): Rider?
+
+    @Query("SELECT * from rider")
+    fun getCurrentRider(): Rider
 }

@@ -1,17 +1,15 @@
 package pt.ua.cm.fooddelivery.network
 
-import com.google.gson.JsonObject
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import pt.ua.cm.fooddelivery.entities.Client
+import pt.ua.cm.fooddelivery.client.entities.Client
 import pt.ua.cm.fooddelivery.network.request.LoginRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
-import pt.ua.cm.fooddelivery.network.response.map.DirectionsResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory

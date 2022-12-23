@@ -1,19 +1,20 @@
 package pt.ua.cm.fooddelivery.database
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import pt.ua.cm.fooddelivery.entities.Client
-import pt.ua.cm.fooddelivery.entities.Menu
-import pt.ua.cm.fooddelivery.entities.Order
-import pt.ua.cm.fooddelivery.repository.OrderDao
-import pt.ua.cm.fooddelivery.entities.Restaurant
-import pt.ua.cm.fooddelivery.repository.RestaurantDao
-import pt.ua.cm.fooddelivery.repository.UserDao
+import pt.ua.cm.fooddelivery.client.entities.Client
+import pt.ua.cm.fooddelivery.client.entities.Menu
+import pt.ua.cm.fooddelivery.client.entities.Order
+import pt.ua.cm.fooddelivery.client.entities.Restaurant
+import pt.ua.cm.fooddelivery.client.repository.OrderDao
+import pt.ua.cm.fooddelivery.client.repository.RestaurantDao
+import pt.ua.cm.fooddelivery.client.repository.UserDao
 import timber.log.Timber
-
 
 @Database(entities = [Restaurant::class, Menu::class, Order::class, Client::class], version = 9, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

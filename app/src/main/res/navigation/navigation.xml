@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="pt.ua.cm.fooddelivery.ui.HomeFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/restaurant_fragment"
-        android:name="pt.ua.cm.fooddelivery.ui.RestaurantFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.RestaurantFragment"
         android:label="@string/title_restaurant_details"
         tools:layout="@layout/fragment_restaurant" >
         <argument
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="pt.ua.cm.fooddelivery.ui.CartFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" >
         <action
@@ -40,12 +40,16 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="pt.ua.cm.fooddelivery.ui.ProfileFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_login"
+            app:destination="@id/navigation_login" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_login"
-        android:name="pt.ua.cm.fooddelivery.ui.Login"
+        android:name="pt.ua.cm.fooddelivery.ui.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -54,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/deliveries_fragment"
-        android:name="pt.ua.cm.fooddelivery.ui.DeliveriesFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.DeliveriesFragment"
         android:label="Deliveries List"
         tools:layout="@layout/fragment_deliveries">
         <action
@@ -63,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="pt.ua.cm.fooddelivery.ui.MapFragment"
+        android:name="pt.ua.cm.fooddelivery.client.ui.MapFragment"
         android:label="MapsFragment" >
         <argument
             android:name="riderLocation"

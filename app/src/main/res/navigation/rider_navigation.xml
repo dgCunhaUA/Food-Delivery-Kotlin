@@ -9,10 +9,26 @@
         android:id="@+id/rider_navigation_home"
         android:name="pt.ua.cm.fooddelivery.rider.ui.RiderHomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_rider_home" />
+        tools:layout="@layout/fragment_rider_home" >
+        <action
+            android:id="@+id/action_rider_navigation_home_to_riderMapFragment"
+            app:destination="@id/riderMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/rider_navigation_profile"
         android:name="pt.ua.cm.fooddelivery.rider.ui.RiderProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_rider_profile" />
+    <fragment
+        android:id="@+id/riderMapFragment"
+        android:name="pt.ua.cm.fooddelivery.rider.ui.RiderMapFragment"
+        android:label="RiderMapFragment">
+        <argument
+            android:name="clientAddress"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="orderId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

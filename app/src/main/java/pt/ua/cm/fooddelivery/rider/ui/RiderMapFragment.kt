@@ -1,12 +1,17 @@
-package pt.ua.cm.fooddelivery.client.ui
+package pt.ua.cm.fooddelivery.rider.ui
+
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
+import android.provider.SettingsSlicesContract.KEY_LOCATION
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,75 +19,143 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.navArgs
+import androidx.room.Update
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.PolyUtil
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 import pt.ua.cm.fooddelivery.BuildConfig.MAPS_API_KEY
-import pt.ua.cm.fooddelivery.ClientActivity
 import pt.ua.cm.fooddelivery.R
-import pt.ua.cm.fooddelivery.databinding.FragmentMapBinding
+import pt.ua.cm.fooddelivery.RiderActivity
+import pt.ua.cm.fooddelivery.databinding.FragmentRiderMapBinding
 import pt.ua.cm.fooddelivery.network.Api
+import pt.ua.cm.fooddelivery.network.request.AcceptOrderRequest
+import pt.ua.cm.fooddelivery.network.request.UpdateRiderLocationRequest
+import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import timber.log.Timber
+import java.io.IOException
 
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class RiderMapFragment : Fragment(), OnMapReadyCallback {
 
-    private val args: MapFragmentArgs by navArgs()
+    private val args: RiderMapFragmentArgs by navArgs()
 
-    private lateinit var binding: FragmentMapBinding
+    private lateinit var binding: FragmentRiderMapBinding
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private var locationPermissionGranted = false
-    private var lastKnownLocation: Location? = null
+    //private var lastKnownLocation: Location? = null
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
     private var cameraPosition: CameraPosition? = null
     private var map: GoogleMap? = null
 
-    private var lastRiderLocation: LatLng? = null
+    private val clientLocation: MutableLiveData<LatLng?> by lazy {
+        MutableLiveData<LatLng?>()
+    }
+
+    private val lastKnownLocation: MutableLiveData<Location?> by lazy {
+        MutableLiveData<Location?>()
+    }
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.i("onCreate with args: $args")
 
-        lastRiderLocation = args.riderLocation
+        //lastClientLocation = args.clientAddress
+        getLocationFromAddress(requireContext(), args.clientAddress)
 
         fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(activity as ClientActivity)
+            LocationServices.getFusedLocationProviderClient(activity as RiderActivity)
 
         if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
+            lastKnownLocation.postValue(savedInstanceState.getParcelable(KEY_LOCATION))
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentMapBinding.inflate(layoutInflater)
+        binding = FragmentRiderMapBinding.inflate(layoutInflater)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?  //use SuppoprtMapFragment for using in fragment instead of activity  MapFragment = activity   SupportMapFragment = fragment
         mapFragment!!.getMapAsync(this)
+
+        clientLocation.observe(viewLifecycleOwner) {
+            Timber.i("Client Location Observer: $it")
+            if(it != null) {
+                getDirections()
+            }
+        }
+        lastKnownLocation.observe(viewLifecycleOwner) {
+            Timber.i("Last known Location Observer: $it")
+            if(it != null) {
+                getDirections()
+            }
+
+            if (lastKnownLocation.value != null) {
+                map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                    LatLng(lastKnownLocation.value!!.latitude,
+                        lastKnownLocation.value!!.longitude), DEFAULT_ZOOM.toFloat()))
+            }
+        }
+
+        locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500)
+            .setWaitForAccurateLocation(false)
+            .setMinUpdateIntervalMillis(500)
+            .setMaxUpdateDelayMillis(1000)
+            .build()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                val location = locationResult.locations[0]
+
+                val updateRiderLocationRequest = UpdateRiderLocationRequest(
+                    order_id = args.orderId,
+                    rider_lat = location.latitude,
+                    rider_lng = location.longitude,
+                )
+
+                Api.apiService.updateRiderLocation(updateRiderLocationRequest).enqueue(object :
+                    Callback<DeliveriesResponse> {
+                    override fun onFailure(call: Call<DeliveriesResponse>, t: Throwable) {
+                        Timber.i("error $t")
+                    }
+
+                    override fun onResponse(
+                        call: Call<DeliveriesResponse>,
+                        response: retrofit2.Response<DeliveriesResponse>
+                    ) {
+                    }
+                })
+            }
+        }
+
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
         return binding.root
     }
@@ -90,9 +163,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onSaveInstanceState(outState: Bundle) {
         map?.let { map ->
             outState.putParcelable(KEY_CAMERA_POSITION, map.cameraPosition)
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
+            outState.putParcelable(KEY_LOCATION, lastKnownLocation.value)
         }
         super.onSaveInstanceState(outState)
+    }
+
+    private fun getLocationFromAddress(context: Context, strAddress: String?) {
+        val coder = Geocoder(context)
+
+        val strAddress2 = "Universidade de Aveiro, 3810-193 Aveiro"  //TODO
+        val address: List<Address>?
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress2!!, 1)
+            if (address == null) {
+                return
+            }
+            val location: Address = address[0]
+            clientLocation.postValue( LatLng(location.latitude, location.longitude) )
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -107,12 +198,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         // Get the current location of the device and set the position of the map.
         getDeviceLocation()
 
-        setRiderMarker()
-
-        //getDirections()
-        startUpdates()
+        setClientMarker()
     }
-
 
     private fun getLocationPermission() {
         /*
@@ -120,13 +207,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(activity as ClientActivity,
+        if (ContextCompat.checkSelfPermission(activity as RiderActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED
         ) {
             locationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(activity as ClientActivity,
+            ActivityCompat.requestPermissions(activity as RiderActivity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
             )
@@ -145,14 +232,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             } else {
                 map?.isMyLocationEnabled = false
                 map?.uiSettings?.isMyLocationButtonEnabled = false
-                lastKnownLocation = null
+                lastKnownLocation.postValue(null)
                 getLocationPermission()
             }
         } catch (e: SecurityException) {
             Timber.i("Exception: ${e.message}")
         }
     }
-
 
     @SuppressLint("MissingPermission")
     private fun getDeviceLocation() {
@@ -163,18 +249,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         try {
             if (locationPermissionGranted) {
                 val locationResult = fusedLocationProviderClient.lastLocation
-                locationResult.addOnCompleteListener(activity as ClientActivity) { task ->
+                locationResult.addOnCompleteListener(activity as RiderActivity) { task ->
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
-                        lastKnownLocation = task.result
-                        Timber.i("LAST KNOW LOCATION: $lastKnownLocation")
-                        if (lastKnownLocation != null) {
-                            map?.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                LatLng(lastKnownLocation!!.latitude,
-                                    lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
-                        }
+                        lastKnownLocation.postValue(task.result)
+                        Timber.i("LAST KNOW LOCATION: ${lastKnownLocation.value}")
 
-                        getDirections()
                     } else {
                         Timber.i("Current location is null. Using defaults.")
                         Timber.i("Exception: ${task.exception}")
@@ -189,53 +269,34 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-
-    //private var markersList: List<Marker> = ArrayList()
-    val markersList = ArrayList<Marker>()
-
-    private fun setRiderMarker() {
-        if (lastRiderLocation != null) {
-
-            val marker: Marker? = map?.addMarker(MarkerOptions().position(lastRiderLocation!!))
-
-            if (marker != null) {
-                for (m: Marker in markersList) {
-                    m.isVisible = false
-                }
-                markersList.add(marker)
-            }
+    private fun setClientMarker() {
+        if (clientLocation.value != null) {
+            map?.addMarker(MarkerOptions().position(clientLocation.value!!))
         }
     }
 
     private fun getDirections() {
-
         Timber.i("Getting directions")
 
-        if (lastRiderLocation != null && lastKnownLocation != null) {
+        if (clientLocation.value != null && lastKnownLocation.value != null) {
 
             val lastKnownLocationString =
-                lastKnownLocation!!.latitude.toString() + "," + lastKnownLocation!!.longitude.toString()
-            val lastRiderLocationString =
-                lastRiderLocation!!.latitude.toString() + "," + lastRiderLocation!!.longitude.toString()
-
-
-            Timber.i("origin: $lastKnownLocationString")
-            Timber.i("dest: $lastRiderLocationString")
-            Timber.i("leu $MAPS_API_KEY")
-
+                lastKnownLocation.value!!.latitude.toString() + "," + lastKnownLocation.value!!.longitude.toString()
+            val lastClientLocationString =
+                clientLocation.value!!.latitude.toString() + "," + clientLocation.value!!.longitude.toString()
 
             val url: String =
                 "https://maps.googleapis.com/maps/api/directions/json?origin=$lastKnownLocationString" +
-                        "&destination=$lastRiderLocationString&key=$MAPS_API_KEY&sensor=false&mode=driving"
+                        "&destination=$lastClientLocationString&key=$MAPS_API_KEY&sensor=false&mode=driving"
 
             try {
 
                 val path: MutableList<List<LatLng>> = ArrayList()
-                //val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key=<YOUR_API_KEY>"
                 val directionsRequest = object :
                     StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
 
                         val jsonResponse = JSONObject(response)
+                        Timber.i("Directions response: $jsonResponse")
 
                         // Get routes
                         val routes = jsonResponse.getJSONArray("routes")
@@ -251,63 +312,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 .color(Color.BLACK))
                         }
                     }, Response.ErrorListener { _ ->
+                        Timber.i("Getting Directions Failed")
+                        Toast.makeText(activity, "Getting Directions Failed", Toast.LENGTH_SHORT).show()
                     }) {}
-                val requestQueue = Volley.newRequestQueue(activity as ClientActivity)
+                val requestQueue = Volley.newRequestQueue(activity as RiderActivity)
                 requestQueue.add(directionsRequest)
+
             } catch (ex: Exception) {
                 Timber.i(ex)
             }
 
-        } else {
-            Timber.i("Getting Directions Failed")
-            showToast("Getting Directions Failed")
         }
-    }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-    }
-
-    private val scope = MainScope()
-    var job: Job? = null
-    private fun startUpdates() {
-        job = scope.launch {
-            while (true) {
-
-                Api.apiService.getRiderLocation(args.orderId).enqueue(object :
-                    Callback<DeliveriesResponse> {
-                    override fun onFailure(call: Call<DeliveriesResponse>, t: Throwable) {
-                        Timber.i("error $t")
-                    }
-
-                    override fun onResponse(
-                        call: Call<DeliveriesResponse>,
-                        response: retrofit2.Response<DeliveriesResponse>
-                    ) {
-                        val order: DeliveriesResponse? = response.body()
-
-                        lastRiderLocation = LatLng(order?.rider_lat!!, order.rider_lng!!)
-                        setRiderMarker()
-                    }
-                })
-
-                delay(1000)
-            }
-        }
-    }
-
-    private fun stopUpdates() {
-        job?.cancel()
-        job = null
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        stopUpdates()
+
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
     companion object {
-        //private val TAG = MapsActivityCurrentPlace::class.java.simpleName
         private const val DEFAULT_ZOOM = 15
         private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 

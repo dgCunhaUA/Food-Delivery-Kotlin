@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import pt.ua.cm.fooddelivery.DeliveryApplication
+import pt.ua.cm.fooddelivery.R
 import pt.ua.cm.fooddelivery.databinding.FragmentRiderHomeBinding
 import pt.ua.cm.fooddelivery.network.response.BaseResponse
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
@@ -111,7 +114,9 @@ class RiderHomeFragment : Fragment(), OrderItemClickListener {
     }
 
     override fun showOrderMap(order: DeliveriesResponse) {
-        TODO("Not yet implemented")
+        val bundle = bundleOf("clientAddress" to order.client_address, "orderId" to order.id)
+        view?.findNavController()
+            ?.navigate(R.id.action_rider_navigation_home_to_riderMapFragment, bundle)
     }
 
     private fun showLoading() {

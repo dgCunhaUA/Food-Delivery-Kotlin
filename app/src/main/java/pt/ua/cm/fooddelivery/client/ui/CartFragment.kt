@@ -94,9 +94,8 @@ class CartFragment : Fragment(), MenuItemClickListener {
             binding.deliveriesStatusBtn.setOnClickListener {
                 Timber.i("Navigating to Deliveries Fragment")
                 view?.findNavController()
-                    //?.navigate(R.id.action_navigation_cart_to_deliveries_fragment)
+                    ?.navigate(R.id.action_navigation_cart_to_deliveries_fragment)
             }
-
         }
     }
 

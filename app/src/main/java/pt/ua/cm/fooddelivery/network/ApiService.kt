@@ -9,6 +9,7 @@ import pt.ua.cm.fooddelivery.client.entities.Client
 import pt.ua.cm.fooddelivery.network.request.AcceptOrderRequest
 import pt.ua.cm.fooddelivery.network.request.LoginRequest
 import pt.ua.cm.fooddelivery.network.request.OrderFinishRequest
+import pt.ua.cm.fooddelivery.network.request.UpdateRiderLocationRequest
 import pt.ua.cm.fooddelivery.network.response.DeliveriesResponse
 import pt.ua.cm.fooddelivery.network.response.OrderFinishResponse
 import pt.ua.cm.fooddelivery.rider.entities.Rider
@@ -61,14 +62,17 @@ interface ApiService {
     @GET("/api/order/client/{clientId}/active")
     fun getAllOrdersById(@Path("clientId") clientId: String) : Call<List<DeliveriesResponse>>
 
-    @GET
-    fun getDirections(@Url url: String): Call<Any>
-
     @GET("/api/order/rider/{riderId}")
     fun getRiderOrdersById(@Path("riderId") riderId: Int) : Call<List<DeliveriesResponse>>
 
     @PUT("/api/order/accept")
     fun acceptOrder(@Body acceptOrderRequest: AcceptOrderRequest) : Call<DeliveriesResponse>
+
+    @PUT("/api/order/rider/update")
+    fun updateRiderLocation(@Body updateRiderLocationRequest: UpdateRiderLocationRequest) : Call<DeliveriesResponse>
+
+    @GET("/api/order/{orderId}/coords")
+    fun getRiderLocation(@Path("orderId") orderId: Int): Call<DeliveriesResponse>
 }
 
 object Api {

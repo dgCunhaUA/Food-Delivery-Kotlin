@@ -32,9 +32,9 @@ class DeliveriesViewHolder(
                     riderLocation = LatLng(order.rider_lat!!, order.rider_lng!!)
                 }
 
-                val bundle = bundleOf("riderLocation" to riderLocation)
+                val bundle = bundleOf("riderLocation" to riderLocation, "orderId" to order.id)
                 it.findNavController()
-                    //.navigate(R.id.action_deliveries_fragment_to_mapsFragment, bundle)
+                    .navigate(R.id.action_deliveries_fragment_to_mapsFragment, bundle)
             }
         } else {
             binding.showMapBtn.visibility = View.GONE

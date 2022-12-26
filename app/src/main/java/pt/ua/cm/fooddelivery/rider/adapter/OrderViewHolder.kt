@@ -28,7 +28,6 @@ class OrderViewHolder(
         } else {
             binding.acceptOrderBtn.visibility = View.VISIBLE
 
-
             binding.acceptOrderBtn.setOnClickListener {
                 Timber.i("Accepting Order")
                 clickListener.acceptOrder(order)

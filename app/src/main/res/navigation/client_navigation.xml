@@ -59,5 +59,8 @@
             android:name="riderLocation"
             app:argType="com.google.android.gms.maps.model.LatLng"
             app:nullable="true" />
+        <argument
+            android:name="orderId"
+            app:argType="integer" />
     </fragment>
 </navigation>

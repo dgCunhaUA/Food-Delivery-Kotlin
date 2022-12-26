@@ -20,7 +20,6 @@ class UserRepository(private val userDao: UserDao) {
     }
 
     fun getAutoLoginClient(): Client? {
-        //val autoLoginClient: Client? = userDao.getAutoLoginClient()
         return userDao.getAutoLoginClient()
     }
 }

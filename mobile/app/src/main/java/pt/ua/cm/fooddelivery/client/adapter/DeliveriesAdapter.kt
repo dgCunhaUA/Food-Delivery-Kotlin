@@ -9,17 +9,16 @@ import pt.ua.cm.fooddelivery.databinding.DeliveryItemBinding
 
 class DeliveriesAdapter(
     private val deliveries: List<DeliveriesResponse>,
-    //private val clickListener: MenuItemClickListener
-): RecyclerView.Adapter<pt.ua.cm.fooddelivery.client.adapter.DeliveriesViewHolder>()
+): RecyclerView.Adapter<DeliveriesViewHolder>()
 {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): pt.ua.cm.fooddelivery.client.adapter.DeliveriesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveriesViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = DeliveryItemBinding.inflate(from, parent, false)
-        return pt.ua.cm.fooddelivery.client.adapter.DeliveriesViewHolder(parent.context, binding)
+        return DeliveriesViewHolder(parent.context, binding)
     }
 
-    override fun onBindViewHolder(holder: pt.ua.cm.fooddelivery.client.adapter.DeliveriesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeliveriesViewHolder, position: Int) {
         holder.bindDeliveryItem(deliveries[position])
     }
 

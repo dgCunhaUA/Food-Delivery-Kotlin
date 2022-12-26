@@ -8,12 +8,6 @@ class RestaurantViewModel(private val repository: RestaurantRepository): ViewMod
 {
     val restaurantItems: LiveData<List<Restaurant>> = repository.allRestaurants.asLiveData()
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
-    /*fun insert(restaurant: Restaurant) = viewModelScope.launch {
-        repository.insert(restaurant)
-    } */
 }
 
 class RestaurantModelFactory(private val repository: RestaurantRepository) : ViewModelProvider.Factory

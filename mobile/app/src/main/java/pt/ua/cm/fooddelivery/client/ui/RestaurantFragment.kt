@@ -85,13 +85,9 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
 
     override fun addMenuToCart(menu: Menu) {
         cartViewModel.addMenuToCart(menu)
-        //orderViewModel.getCurrentCart()
-        //menuViewModel.getRestaurantMenus(menu.restaurantId)
     }
 
     override fun rmMenuFromCart(menu: Menu) {
         cartViewModel.rmMenuFromCart(menu)
-        //orderViewModel.getCurrentCart()
-        //menuViewModel.getRestaurantMenus(menu.restaurantId)
     }
 }

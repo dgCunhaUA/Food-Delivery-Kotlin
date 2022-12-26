@@ -39,7 +39,6 @@ class CartFragment : Fragment(), MenuItemClickListener {
         binding = FragmentCartBinding.inflate(layoutInflater)
 
         setFields()
-        observeFeedback()
 
         binding.finishOrderBtn.setOnClickListener {
             cartViewModel.finishOrder()
@@ -99,25 +98,12 @@ class CartFragment : Fragment(), MenuItemClickListener {
         }
     }
 
-    private fun observeFeedback() {
-        cartViewModel.feedbackMessage.observe(viewLifecycleOwner) {
-            if (it != null) {
-                //val toast = Toast.makeText(context, it, Toast.LENGTH_SHORT)
-                //toast.show()
-            }
-            //orderViewModel.feedbackMessage.postValue(null)
-        }
-        cartViewModel.getCurrentCart()
-    }
-
     override fun addMenuToCart(menu: Menu) {
         cartViewModel.addMenuToCart(menu)
-        //orderViewModel.getCurrentCart()
     }
 
     override fun rmMenuFromCart(menu: Menu) {
         cartViewModel.rmMenuFromCart(menu)
-        //orderViewModel.getCurrentCart()
     }
 
 

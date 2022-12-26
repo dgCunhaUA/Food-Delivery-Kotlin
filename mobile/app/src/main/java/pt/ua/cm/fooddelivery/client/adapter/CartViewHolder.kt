@@ -10,7 +10,7 @@ import timber.log.Timber
 class CartViewHolder(
     private val context: Context,
     private val binding: CartItemBinding,
-    private val clickListener: pt.ua.cm.fooddelivery.client.adapter.MenuItemClickListener
+    private val clickListener: MenuItemClickListener
 ): RecyclerView.ViewHolder(binding.root)
 {
 

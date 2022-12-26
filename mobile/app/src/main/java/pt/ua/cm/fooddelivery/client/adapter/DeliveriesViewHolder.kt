@@ -14,7 +14,6 @@ import timber.log.Timber
 class DeliveriesViewHolder(
     private val context: Context,
     private val binding: DeliveryItemBinding,
-    //private val clickListener: DeliverItemClickListener
 ): RecyclerView.ViewHolder(binding.root)
 {
 

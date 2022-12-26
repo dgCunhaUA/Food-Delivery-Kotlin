@@ -9,14 +9,6 @@ data class Order(
     @ColumnInfo(name = "active") val active: Boolean,
 )
 
-/*@Entity(tableName = "orderWithMenus",
-    foreignKeys = [ForeignKey(
-        entity = Menu::class,
-        parentColumns = ["orderId"],
-        childColumns = ["orderID"],
-        onDelete = ForeignKey.CASCADE)
-    ])
- */
 data class OrderWithMenus (
     @Embedded
     val order: Order,

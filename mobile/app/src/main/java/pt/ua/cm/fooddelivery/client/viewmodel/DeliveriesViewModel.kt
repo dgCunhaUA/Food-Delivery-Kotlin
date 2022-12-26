@@ -21,9 +21,7 @@ class DeliveriesViewModel(private val orderRepository: OrderRepository,
                           private val userRepository: UserRepository
 ) : ViewModel() {
 
-    //val orderItems: LiveData<List<Order>> = orderRepository.allUserOrders.asLiveData()
     val ordersResult: MutableLiveData<BaseResponse<List<DeliveriesResponse>>> = MutableLiveData()
-
 
     private val api = Api
 

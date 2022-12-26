@@ -35,7 +35,6 @@ private val client = OkHttpClient.Builder()
 
 private val retrofit = Retrofit.Builder()
     .addConverterFactory(MoshiConverterFactory.create(moshi))
-    //.addConverterFactory(GsonConverterFactory.create())
     .baseUrl(BASE_URL)
     .client(client)
     .build()
@@ -48,13 +47,6 @@ interface ApiService {
 
     @POST("/api/rider/login")
     fun loginRider(@Body loginRequest: LoginRequest): Call<Rider>
-
-    @Multipart
-    @POST("/api/client/upload/1")
-    fun uploadProfilePicture(@Part photo: MultipartBody.Part): Call<Any>
-    //fun uploadProfilePicture(@Part photo: RequestBody, @Part id: RequestBody): Call<Response<Unit>>
-    //fun uploadProfilePicture(@Body profilePictureRequest: ProfilePictureRequest): Call<Response<Any>>
-    //fun uploadProfilePicture(@Body profilePictureRequest: RequestBody): Call<Response<Any>>
 
     @POST("/api/order/create")
     fun createOrder(@Body orderFinishRequest: OrderFinishRequest): Call<OrderFinishResponse>

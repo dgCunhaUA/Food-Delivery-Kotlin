@@ -62,7 +62,6 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private var locationPermissionGranted = false
-    //private var lastKnownLocation: Location? = null
     private val defaultLocation = LatLng(-33.8523341, 151.2106085)
     private var cameraPosition: CameraPosition? = null
     private var map: GoogleMap? = null

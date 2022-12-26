@@ -19,9 +19,6 @@ import retrofit2.Response
 import timber.log.Timber
 
 class RiderHomeViewModel(private val repository: RiderRepository): ViewModel() {
-    //val currentRider: LiveData<Rider?> = repository.currentRider.asLiveData()
-
-    //val currentOrders: LiveData<List<Order>> = repository.currentOrders.asLiveData()
 
     val orderResult: MutableLiveData<BaseResponse<List<DeliveriesResponse>>> = MutableLiveData()
 

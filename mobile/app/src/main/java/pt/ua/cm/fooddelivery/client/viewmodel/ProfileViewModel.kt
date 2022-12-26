@@ -24,61 +24,6 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
 
     val currentClient: LiveData<Client?> = userRepository.currentClient.asLiveData()
 
-
-    fun uploadProfilePicture(profilePicture: File) {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            /*val requestFile: RequestBody = RequestBody.create(
-                MediaType.get("image/png"),
-                profilePicture
-            )
-            val photo =
-                MultipartBody.Part.createFormData("photo", profilePicture.name, requestFile)
-            val id = MultipartBody.Part.createFormData("id", "1")
-
-             */
-
-            /*val multipartBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("id", "1")
-                .addFormDataPart("avatarUrl", profilePicture.name, profilePicture.asRequestBody())
-                .build()
-
-             */
-
-            /*val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), profilePicture)
-
-            val photo = MultipartBody.Part.createFormData("photo", profilePicture.name, requestFile)
-
-            val id = RequestBody.create(MediaType.parse("multipart/form-data"), "1")
-
-             */
-
-            val photo =
-                MultipartBody.Part.createFormData("photo", profilePicture.name, RequestBody.create(
-                    MediaType.parse("image/*"), profilePicture))
-
-            //val id = MultipartBody.Part.createFormData("id", "1")
-
-
-            Api.apiService.uploadProfilePicture(photo).enqueue(object:
-                Callback<Any> {
-                override fun onFailure(call: Call<Any>, t: Throwable) {
-                    //handle error here
-                    Timber.i("error $t")
-                }
-
-                override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                    //your raw string response
-                    Timber.i("response: $response")
-                    Timber.i("body: ${response.body()}")
-                    Timber.i("code: ${response.code()}")
-
-                }
-            })
-        }
-    }
-
     fun logout() {
         CoroutineScope(Dispatchers.IO).launch {
             userRepository.deleteAll()

@@ -28,7 +28,7 @@ class DeliveryApplication: Application() {
     }
 
     val riderRepository by lazy {
-        RiderRepository(database.riderDao())
+        RiderRepository(database.riderDao(), this)
     }
 
     override fun onCreate() {

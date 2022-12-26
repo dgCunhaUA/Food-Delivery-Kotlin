@@ -22,7 +22,7 @@ import timber.log.Timber
 
 class RestaurantFragment : Fragment(), MenuItemClickListener {
 
-    //private val args: RestaurantFragmentArgs by navArgs()
+    private val args: RestaurantFragmentArgs by navArgs()
 
     private lateinit var binding: FragmentRestaurantBinding
 
@@ -39,8 +39,7 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.i("onCreate")
-        ///////////////menuViewModel.getRestaurantMenus(args.id)
-        Timber.i(menuViewModel.restaurantMenus.value.toString())
+        menuViewModel.getRestaurantMenus(args.id)
     }
 
     override fun onCreateView(
@@ -59,9 +58,8 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
 
     private fun setFields()
     {
-        /*Timber.i("setRecyclerView for restaurantId: ${args.id}")
-        val mainActivity = this.activity
-        if (mainActivity != null) {
+        Timber.i("setRecyclerView for restaurantId: ${args.id}")
+        if (activity != null) {
             menuViewModel.restaurantMenus.observe(viewLifecycleOwner) {
                 binding.restaurantName.text = it.restaurant.name
 
@@ -72,8 +70,6 @@ class RestaurantFragment : Fragment(), MenuItemClickListener {
             }
             menuViewModel.getRestaurantMenus(args.id)
         }
-
-         */
     }
 
     private fun observeFeedback() {

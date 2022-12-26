@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.Flow
 import pt.ua.cm.fooddelivery.client.entities.Restaurant
 import pt.ua.cm.fooddelivery.client.entities.RestaurantWithMenus
+import timber.log.Timber
 
 
 class RestaurantRepository(private val restaurantDao: RestaurantDao)
@@ -12,13 +13,9 @@ class RestaurantRepository(private val restaurantDao: RestaurantDao)
 
     val restaurantMenus: MutableLiveData<RestaurantWithMenus> = MutableLiveData<RestaurantWithMenus>()
 
-    //val currentRestaurant: Flow<Restaurant?> //= restaurantDao.getRestaurant()
 
-
-    //@WorkerThread
     fun getRestaurantMenus(restaurantId: Int)
     {
-        //restaurantMenus = restaurantDao.getRestaurantWithMenus(restaurantId)
         restaurantMenus.postValue(restaurantDao.getRestaurantWithMenus(restaurantId))
     }
 

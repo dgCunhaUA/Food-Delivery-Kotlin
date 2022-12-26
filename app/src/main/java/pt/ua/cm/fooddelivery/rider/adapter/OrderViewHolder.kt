@@ -16,9 +16,10 @@ class OrderViewHolder(
     fun bindOrderItem(order: DeliveriesResponse)
     {
         Timber.i(order.toString())
-        binding.orderName.text = order.order_status
 
         if(order.order_status == "Delivering") {
+            binding.orderName.text = order.order_status
+
             binding.acceptOrderBtn.visibility = View.GONE
             binding.showMapBtn.visibility = View.VISIBLE
 
@@ -27,6 +28,8 @@ class OrderViewHolder(
                 clickListener.showOrderMap(order)
             }
         } else {
+            binding.orderName.text = "Waiting to be accepted"
+
             binding.acceptOrderBtn.visibility = View.VISIBLE
             binding.showMapBtn.visibility = View.GONE
 

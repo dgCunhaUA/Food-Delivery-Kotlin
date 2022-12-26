@@ -228,11 +228,10 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
     private fun getLocationFromAddress(context: Context, strAddress: String?) {
         val coder = Geocoder(context)
 
-        val strAddress2 = "Universidade de Aveiro, 3810-193 Aveiro"  //TODO
         val address: List<Address>?
         try {
             // May throw an IOException
-            address = coder.getFromLocationName(strAddress2!!, 1)
+            address = coder.getFromLocationName(strAddress!!, 1)
             if (address == null) {
                 return
             }
@@ -386,6 +385,7 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
         super.onDestroyView()
 
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        lastKnownLocation.postValue(null)
     }
 
     companion object {

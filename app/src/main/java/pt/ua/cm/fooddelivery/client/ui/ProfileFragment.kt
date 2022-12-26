@@ -39,14 +39,11 @@ class ProfileFragment : Fragment() {
         ProfileModelFactory((activity?.application as DeliveryApplication).userRepository)
     }
 
-    private val api = Api
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
         bindFields()
@@ -78,7 +75,6 @@ class ProfileFragment : Fragment() {
 
     private fun bindFields() {
         profileViewModel.currentClient.observe(viewLifecycleOwner) {
-
             if(it != null) {
                 CoroutineScope(Dispatchers.IO).launch {
                     loadProfileImage(it)

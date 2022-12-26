@@ -9,25 +9,11 @@ import pt.ua.cm.fooddelivery.client.repository.RestaurantRepository
 
 class MenuViewModel(private val repository: RestaurantRepository): ViewModel() {
 
-    //val restaurantMenus: LiveData<RestaurantWithMenus> = repository.restaurantMenus.asLiveData()
 
     val restaurantMenus: LiveData<RestaurantWithMenus> = repository.restaurantMenus
 
-    /*val liveData: LiveData<RestaurantWithMenus> = repository.liveData
-    fun getData(restaurantId: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            repository.getData(restaurantId)
-        }
-    }
-     */
-
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
-     */
-    /*
-    fun getRestaurantMenus(restaurantId: Int) = viewModelScope.launch {
-        repository.getRestaurantMenus(restaurantId)
-    }
      */
     fun getRestaurantMenus(restaurantId: Int) {
         CoroutineScope(Dispatchers.IO).launch {

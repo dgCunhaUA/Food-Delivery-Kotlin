@@ -1,6 +1,7 @@
 package pt.ua.cm.fooddelivery.rider.viewmodel
 
 import androidx.lifecycle.*
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -65,11 +66,13 @@ class RiderHomeViewModel(private val repository: RiderRepository): ViewModel() {
 
         val currentRider: Rider = repository.getCurrentRider()
 
+        val riderLocation: LatLng? = repository.getRiderLocation()
+
         val acceptOrderRequest = AcceptOrderRequest(
             order_id = order.id,
             rider_name = currentRider.name,
-            rider_lat = 0.1,
-            rider_lng = 0.1,
+            rider_lat = riderLocation?.latitude ?: 40.6318,
+            rider_lng = riderLocation?.longitude ?: -8.6508,
             order_status = "Delivering"
         )
 

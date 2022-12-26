@@ -22,4 +22,7 @@ interface RiderDao {
 
     @Query("SELECT * from rider")
     fun getCurrentRider(): Rider
+
+    @Query("DELETE FROM rider")
+    suspend fun deleteAll()
 }

@@ -17,4 +17,4 @@
 * npm install
 * node models/client.model.js
 * ...
-
+* npm start

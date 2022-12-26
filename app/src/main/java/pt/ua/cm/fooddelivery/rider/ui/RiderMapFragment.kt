@@ -15,11 +15,12 @@ import android.provider.SettingsSlicesContract.KEY_LOCATION
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.room.Update
 import com.android.volley.Request
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.maps.android.PolyUtil
 import org.json.JSONObject
 import pt.ua.cm.fooddelivery.BuildConfig.MAPS_API_KEY
@@ -75,6 +77,8 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
+
+    private var delivery: DeliveriesResponse? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,6 +154,7 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
                         call: Call<DeliveriesResponse>,
                         response: retrofit2.Response<DeliveriesResponse>
                     ) {
+                        delivery = response.body()
                     }
                 })
             }
@@ -157,7 +162,59 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
+        binding.deliveryDetailsBtn.setOnClickListener {
+            val dialog = BottomSheetDialog(this.requireContext())
+            val view=layoutInflater.inflate(R.layout.finish_order,null)
+
+            val imgClose = view.findViewById<ImageView>(R.id.img_close)
+            imgClose.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            val clientName = view.findViewById<TextView>(R.id.client_name)
+            val clientAddress = view.findViewById<TextView>(R.id.client_address)
+            val finishBtn = view.findViewById<Button>(R.id.finish_delivery_btn)
+            val prgbar = view.findViewById<ProgressBar>(R.id.prgbar)
+
+            if(delivery != null) {
+                finishBtn.visibility = View.VISIBLE
+                prgbar.visibility = View.GONE
+
+                clientName.text = delivery!!.client_name
+
+                clientAddress.text = delivery!!.client_address
+
+                finishBtn.setOnClickListener {
+                    Api.apiService.finishDelivery(args.orderId).enqueue(object :
+                        Callback<DeliveriesResponse> {
+                        override fun onFailure(call: Call<DeliveriesResponse>, t: Throwable) {
+                            Timber.i("error $t")
+                        }
+
+                        override fun onResponse(
+                            call: Call<DeliveriesResponse>,
+                            response: retrofit2.Response<DeliveriesResponse>
+                        ) {
+                            dialog.dismiss()
+                            navigateHome()
+                        }
+                    })
+                }
+            } else {
+                finishBtn.visibility = View.GONE
+                prgbar.visibility = View.VISIBLE
+            }
+
+            dialog.setContentView(view)
+            dialog.show()
+        }
+
         return binding.root
+    }
+
+    fun navigateHome() {
+        view?.findNavController()
+            ?.navigate(R.id.action_riderMapFragment_to_rider_navigation_home)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -290,7 +347,6 @@ class RiderMapFragment : Fragment(), OnMapReadyCallback {
                         "&destination=$lastClientLocationString&key=$MAPS_API_KEY&sensor=false&mode=driving"
 
             try {
-
                 val path: MutableList<List<LatLng>> = ArrayList()
                 val directionsRequest = object :
                     StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->

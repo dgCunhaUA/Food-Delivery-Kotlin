@@ -41,4 +41,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="client">Client</string>
     <string name="rider">Rider</string>
+    <string name="finish_delivery">Finish Delivery</string>
+    <string name="close">Close</string>
+    <string name="delivery_details">Delivery Details</string>
 </resources>

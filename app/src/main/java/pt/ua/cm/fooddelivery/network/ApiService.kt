@@ -73,6 +73,9 @@ interface ApiService {
 
     @GET("/api/order/{orderId}/coords")
     fun getRiderLocation(@Path("orderId") orderId: Int): Call<DeliveriesResponse>
+
+    @GET("/api/order/delivery/{orderId}")
+    fun finishDelivery(@Path("orderId") orderId: Int): Call<DeliveriesResponse>
 }
 
 object Api {

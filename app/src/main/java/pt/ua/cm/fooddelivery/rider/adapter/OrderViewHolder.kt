@@ -20,6 +20,7 @@ class OrderViewHolder(
 
         if(order.order_status == "Delivering") {
             binding.acceptOrderBtn.visibility = View.GONE
+            binding.showMapBtn.visibility = View.VISIBLE
 
             binding.showMapBtn.setOnClickListener {
                 Timber.i("Check Map Delivery")
@@ -27,6 +28,7 @@ class OrderViewHolder(
             }
         } else {
             binding.acceptOrderBtn.visibility = View.VISIBLE
+            binding.showMapBtn.visibility = View.GONE
 
             binding.acceptOrderBtn.setOnClickListener {
                 Timber.i("Accepting Order")

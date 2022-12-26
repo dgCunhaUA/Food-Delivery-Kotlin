@@ -190,9 +190,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-    //private var markersList: List<Marker> = ArrayList()
-    val markersList = ArrayList<Marker>()
-
+    private val markersList = ArrayList<Marker>()
     private fun setRiderMarker() {
         if (lastRiderLocation != null) {
 
@@ -208,7 +206,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getDirections() {
-
         Timber.i("Getting directions")
 
         if (lastRiderLocation != null && lastKnownLocation != null) {

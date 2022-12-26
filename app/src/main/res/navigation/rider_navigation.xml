@@ -30,5 +30,8 @@
         <argument
             android:name="orderId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_riderMapFragment_to_rider_navigation_home"
+            app:destination="@id/rider_navigation_home" />
     </fragment>
 </navigation>
